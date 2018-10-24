@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.ralphevmanzano.themoviedb"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.support.appCompat
+    implementation deps.support.constraintLayout
+    implementation deps.support.cardView
+    implementation deps.support.designSupport
+    implementation deps.support.support
+    implementation deps.support.recyclerView
+
+    implementation deps.android.lifecycleRuntime
+    implementation deps.android.lifecycleCommon
+    implementation deps.android.lifecycleExt
+    implementation deps.android.lifecycleReactiveStreams
+    annotationProcessor deps.android.lifecycleCompiler
+
+    implementation deps.jakeWharton.timber
+    implementation deps.jakeWharton.butterknife
+    annotationProcessor deps.jakeWharton.butterknifeCompiler
+
+    implementation deps.square.moshi
+    implementation deps.square.moshiConverter
+    implementation deps.square.retrofit
+    implementation deps.square.gsonConverter
+    implementation deps.square.loggingInterceptor
+    implementation deps.square.retrofitRxAdapter
+    implementation deps.square.picasso
+    implementation deps.square.okhttp
+    implementation deps.square.okhttpDownloader
+
+    implementation deps.reactivex.rxJava
+    implementation deps.reactivex.rxAndroid
+
+    implementation deps.google.dagger
+    implementation deps.google.gson
+    implementation deps.google.daggerSupport
+    annotationProcessor deps.google.daggerProcessor
+    annotationProcessor deps.google.daggerCompiler
+
+    implementation deps.room.roomRuntime
+    implementation deps.room.roomRx
+    annotationProcessor deps.room.roomCompiler
+
+    testImplementation deps.test.junit
+    androidTestImplementation deps.test.testRunner
+    androidTestImplementation deps.test.espresso
+}
