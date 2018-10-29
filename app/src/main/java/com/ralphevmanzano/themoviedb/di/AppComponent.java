@@ -4,6 +4,7 @@ import com.ralphevmanzano.themoviedb.App;
 import com.ralphevmanzano.themoviedb.di.modules.AppModule;
 import com.ralphevmanzano.themoviedb.di.modules.ActivityBuildersModule;
 import com.ralphevmanzano.themoviedb.di.modules.FragmentBuildersModule;
+import com.squareup.picasso.Picasso;
 
 import dagger.BindsInstance;
 import dagger.Component;

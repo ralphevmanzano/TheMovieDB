@@ -8,9 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ralphevmanzano.themoviedb.R;
-import com.ralphevmanzano.themoviedb.data.models.Movie;
+import com.ralphevmanzano.themoviedb.data.models.HomeData;
+import com.ralphevmanzano.themoviedb.databinding.FragmentHomeBinding;
 import com.ralphevmanzano.themoviedb.ui.BaseFragment;
-import com.ralphevmanzano.themoviedb.ui.adapters.MoviesAdapter;
+import com.ralphevmanzano.themoviedb.ui.adapters.HomeAdapter;
 import com.ralphevmanzano.themoviedb.viewmodels.MovieListViewModel;
 
 import java.util.ArrayList;
@@ -21,30 +22,16 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
  * A simple {@link androidx.fragment.app.Fragment} subclass.
  */
-public class MovieListFragment extends BaseFragment<MovieListViewModel> {
+public class MovieListFragment extends BaseFragment<MovieListViewModel, FragmentHomeBinding> {
 
-    @BindView(R.id.rvMovies)
-    RecyclerView recyclerView;
 
     @Inject
-    public MoviesAdapter moviesAdapter;
-
-    List<Movie> movieList = new ArrayList<>();
-
-    public static MovieListFragment newInstance() {
-        Bundle args = new Bundle();
-        MovieListFragment fragment = new MovieListFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+    HomeAdapter moviesAdapter;
 
     public MovieListFragment() {
         // Required empty public constructor
@@ -65,8 +52,6 @@ public class MovieListFragment extends BaseFragment<MovieListViewModel> {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        assert view != null;
-        ButterKnife.bind(this, view);
         setupViews();
         return view;
     }
@@ -79,17 +64,19 @@ public class MovieListFragment extends BaseFragment<MovieListViewModel> {
 
     private void setupViews() {
         Log.d("MovieListFragment", "setupViews: ");
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(moviesAdapter);
+        binding.rvMovies.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.rvMovies.setAdapter(moviesAdapter);
 
     }
 
     private void getMovieList() {
-        Timber.d("getMovies start");
-        viewModel.loadMovies();
+        Timber.d("getMoviesList");
+        List<HomeData> homeData = new ArrayList<>();
+        homeData.add(new HomeData(HomeData.HEADER, "Discover"));
         viewModel.getMovies().observe(getViewLifecycleOwner(), movies -> {
-            Timber.d("onChanged called");
-            moviesAdapter.setData(movies);
+            Timber.d("onChanged called %s", movies.size());
+            homeData.add(new HomeData(HomeData.MOVIE_LIST, movies));
+            moviesAdapter.setData(homeData);
         });
     }
 }

@@ -28,6 +28,7 @@ public class MovieListViewModel extends ViewModel {
     MovieListViewModel(MovieRepository movieRepository, SchedulersFacade schedulersFacade) {
         this.movieRepository = movieRepository;
         this.schedulersFacade = schedulersFacade;
+        loadMovies();
     }
 
     @Override
@@ -35,11 +36,11 @@ public class MovieListViewModel extends ViewModel {
         disposable.clear();
     }
 
-    public LiveData<List<Movie>> getMovies() {
+    public MutableLiveData<List<Movie>> getMovies() {
         return movieList;
     }
 
-    public void loadMovies() {
+    private void loadMovies() {
         disposable.add(movieRepository.getMovieList()
                                       .observeOn(schedulersFacade.ui())
                                       .subscribeOn(schedulersFacade.io())

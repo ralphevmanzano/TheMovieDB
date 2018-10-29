@@ -5,6 +5,7 @@ import com.ralphevmanzano.themoviedb.data.MovieDao;
 import com.ralphevmanzano.themoviedb.data.MovieDatabase;
 import com.ralphevmanzano.themoviedb.di.AppScope;
 import com.ralphevmanzano.themoviedb.network.MovieDBService;
+import com.ralphevmanzano.themoviedb.utils.Constants;
 import com.squareup.moshi.Moshi;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
@@ -24,7 +25,7 @@ public class AppModule {
     @Provides
     @AppScope
     MovieDBService provideApiService(OkHttpClient okHttpClient, Moshi moshi) {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://api.themoviedb.org/3/")
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.ENDPOINT)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
@@ -35,10 +36,12 @@ public class AppModule {
     @Provides
     @AppScope
     Picasso picasso(App app, OkHttp3Downloader okHttp3Downloader) {
-        return new Picasso.Builder(app.getApplicationContext())
+        Picasso picasso = new Picasso.Builder(app.getApplicationContext())
                 .downloader(okHttp3Downloader)
                 .indicatorsEnabled(true)
                 .build();
+        Picasso.setSingletonInstance(picasso);
+        return picasso;
     }
 
     @Provides
@@ -54,5 +57,5 @@ public class AppModule {
     MovieDao provideMovieDao(MovieDatabase movieDatabase) {
         return movieDatabase.movieDao();
     }
-	
+
 }

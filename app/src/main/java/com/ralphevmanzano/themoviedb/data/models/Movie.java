@@ -11,19 +11,23 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "table_movie")
 public class Movie {
+    public static final String KEY_VOTE_AVERAGE = "Movie.KEY_VOTE_AVERAGE";
+    public static final String KEY_VOTE_COUNT = "Movie.KEY_VOTE_COUNT";
+
+
     @PrimaryKey
     @Json(name = "id")
-    private Integer id;
+    private int id;
     @Json(name = "vote_count")
-    private Integer voteCount;
+    private int voteCount;
     @Json(name = "video")
     private Boolean video;
     @Json(name = "vote_average")
-    private Double voteAverage;
+    private double voteAverage;
     @Json(name = "title")
     private String title;
     @Json(name = "popularity")
-    private Double popularity;
+    private double popularity;
     @Json(name = "poster_path")
     private String posterPath;
     @Json(name = "original_language")
@@ -50,8 +54,8 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(Integer voteCount, Integer id, Boolean video, Double voteAverage, String title,
-                 Double popularity, String posterPath, String originalLanguage, String originalTitle,
+    public Movie(int voteCount, int id, Boolean video, double voteAverage, String title,
+                 double popularity, String posterPath, String originalLanguage, String originalTitle,
                  List<Integer> genreIds, String backdropPath, Boolean adult, String overview,
                  String releaseDate, Date lastRefresh) {
         super();
@@ -72,19 +76,19 @@ public class Movie {
         this.lastRefresh = lastRefresh;
     }
 
-    public Integer getVoteCount() {
+    public int getVoteCount() {
         return voteCount;
     }
 
-    public void setVoteCount(Integer voteCount) {
+    public void setVoteCount(int voteCount) {
         this.voteCount = voteCount;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -96,11 +100,11 @@ public class Movie {
         this.video = video;
     }
 
-    public Double getVoteAverage() {
+    public double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(Double voteAverage) {
+    public void setVoteAverage(double voteAverage) {
         this.voteAverage = voteAverage;
     }
 
@@ -112,11 +116,11 @@ public class Movie {
         this.title = title;
     }
 
-    public Double getPopularity() {
+    public double getPopularity() {
         return popularity;
     }
 
-    public void setPopularity(Double popularity) {
+    public void setPopularity(double popularity) {
         this.popularity = popularity;
     }
 

@@ -7,6 +7,8 @@ import com.ralphevmanzano.themoviedb.di.DaggerAppComponent;
 
 import javax.inject.Inject;
 
+import androidx.databinding.DataBindingComponent;
+import androidx.databinding.DataBindingUtil;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
@@ -25,6 +27,9 @@ public class App extends Application implements HasActivityInjector {
                 .application(this)
                 .build()
                 .inject(this);
+
+//        DataBindingUtil.setDefaultComponent();
+//
     }
 
     @Override

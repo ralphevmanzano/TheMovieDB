@@ -10,6 +10,8 @@ import javax.inject.Inject;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
@@ -19,12 +21,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import dagger.android.support.AndroidSupportInjection;
 
-public abstract class BaseFragment<VM extends ViewModel> extends Fragment {
+public abstract class BaseFragment<VM extends ViewModel, DB extends ViewDataBinding> extends Fragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-    public VM viewModel;
+    protected VM viewModel;
+
+    protected DB binding;
 
     public abstract Class<VM> getViewModel();
 
@@ -41,6 +45,7 @@ public abstract class BaseFragment<VM extends ViewModel> extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(getLayoutRes(), container, false);
+        binding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false);
+        return binding.getRoot();
     }
 }

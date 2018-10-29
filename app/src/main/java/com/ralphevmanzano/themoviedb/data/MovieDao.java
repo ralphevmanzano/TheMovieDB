@@ -15,7 +15,7 @@ import io.reactivex.Single;
 public interface MovieDao {
 	
 	@Query("SELECT * FROM TABLE_MOVIE")
-	Flowable<List<Movie>> getMovies();
+	Single<List<Movie>> getMovies();
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	void insertMovie(Movie movie);

@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -31,7 +32,7 @@ public class MovieRepository {
     }
 
     @SuppressLint("CheckResult")
-    public Flowable<List<Movie>> getMovieList() {
+    public Single<List<Movie>> getMovieList() {
         if (refreshMovieList()) {
             Timber.d("getMovies from api");
             movieDBService.getMovies("da7a27b5f804b0d194c5ae906088f7c4")

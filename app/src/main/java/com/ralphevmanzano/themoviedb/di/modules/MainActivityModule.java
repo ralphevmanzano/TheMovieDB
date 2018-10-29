@@ -6,8 +6,8 @@ import dagger.Module;
 public class MainActivityModule {
 	
 //	@Provides
-//	MoviesAdapter provideMovieAdapter(MainActivity context){
-//		return new MoviesAdapter(context.getApplicationContext());
+//	HomeAdapter provideMovieAdapter(MainActivity context){
+//		return new HomeAdapter(context.getApplicationContext());
 //	}
 
 }
