@@ -63,20 +63,17 @@ public class MovieListFragment extends BaseFragment<MovieListViewModel, Fragment
     }
 
     private void setupViews() {
-        Log.d("MovieListFragment", "setupViews: ");
+        Timber.d("setupViews: ");
         binding.rvMovies.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvMovies.setAdapter(moviesAdapter);
-
     }
 
     private void getMovieList() {
         Timber.d("getMoviesList");
-        List<HomeData> homeData = new ArrayList<>();
-        homeData.add(new HomeData(HomeData.HEADER, "Discover"));
         viewModel.getMovies().observe(getViewLifecycleOwner(), movies -> {
-            Timber.d("onChanged called %s", movies.size());
-            homeData.add(new HomeData(HomeData.MOVIE_LIST, movies));
-            moviesAdapter.setData(homeData);
+            assert movies.data != null;
+            Timber.d("status movies %s size %d", movies.status, movies.data.getTotalMovies());
+            binding.setResource(movies);
         });
     }
 }

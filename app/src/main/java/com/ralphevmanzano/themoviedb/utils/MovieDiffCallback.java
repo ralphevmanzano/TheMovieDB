@@ -2,7 +2,7 @@ package com.ralphevmanzano.themoviedb.utils;
 
 import android.os.Bundle;
 
-import com.ralphevmanzano.themoviedb.data.models.Movie;
+import com.ralphevmanzano.themoviedb.data.local.entity.Movie;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import com.ralphevmanzano.themoviedb.BR;
 import com.ralphevmanzano.themoviedb.R;
 import com.ralphevmanzano.themoviedb.data.models.HomeData;
-import com.ralphevmanzano.themoviedb.data.models.Movie;
+import com.ralphevmanzano.themoviedb.data.local.entity.Movie;
 import com.ralphevmanzano.themoviedb.databinding.ItemMovieListBinding;
 import com.ralphevmanzano.themoviedb.ui.BaseHomeAdapter;
 import com.ralphevmanzano.themoviedb.utils.MovieDiffCallback;

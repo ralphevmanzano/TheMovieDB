@@ -1,19 +1,19 @@
 package com.ralphevmanzano.themoviedb.data;
 
-import android.annotation.SuppressLint;
-
-import com.ralphevmanzano.themoviedb.data.models.Movie;
-import com.ralphevmanzano.themoviedb.data.models.MovieResponse;
-import com.ralphevmanzano.themoviedb.network.MovieDBService;
+import com.ralphevmanzano.themoviedb.data.local.dao.MovieDao;
+import com.ralphevmanzano.themoviedb.data.local.entity.Movie;
+import com.ralphevmanzano.themoviedb.data.models.MovieCollection;
+import com.ralphevmanzano.themoviedb.data.remote.MovieDBService;
+import com.ralphevmanzano.themoviedb.data.remote.model.MovieResponse;
+import com.ralphevmanzano.themoviedb.utils.Constants;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -31,23 +31,91 @@ public class MovieRepository {
 
     }
 
-    @SuppressLint("CheckResult")
-    public Single<List<Movie>> getMovieList() {
-        if (refreshMovieList()) {
-            Timber.d("getMovies from api");
-            movieDBService.getMovies("da7a27b5f804b0d194c5ae906088f7c4")
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(this::handleResult, this::handleError);
-        }
+    public Flowable<Resource<MovieCollection>> loadCollectionMovies() {
+        return Flowable.zip(loadUpcomingMovies(), loadPopularMovies(), (nowPlayingMovies, popularMovies) -> {
+            assert nowPlayingMovies.data != null;
+            Timber.d("Upcoming movies size collection: %d", nowPlayingMovies.data.size());
 
-        return movieDao.getMovies();
+            assert popularMovies.data != null;
+            Timber.d("Popular movies size collection: %d", popularMovies.data.size());
+
+            return Resource.success(new MovieCollection(nowPlayingMovies.data, popularMovies.data));
+        });
+    }
+
+    private Flowable<Resource<List<Movie>>> loadPopularMovies() {
+        Timber.d("Loading popular movies");
+        return new NetworkBoundResource<List<Movie>, MovieResponse>() {
+
+            @Override
+            protected boolean shouldFetch() {
+                return true;
+            }
+
+            @Override
+            protected void saveCallResult(MovieResponse item) {
+                if (item != null) {
+                    for (Movie movie : item.getMovies()) {
+                        movie.setCategory(Movie.POPULAR);
+                    }
+                    movieDao.insertMovies(item.getMovies());
+                    Timber.d("Popular movies size: %d", item.getMovies().size());
+                }
+            }
+
+            @NonNull
+            @Override
+            protected Flowable<List<Movie>> loadFromDb() {
+                return movieDao.getPopularMovies();
+            }
+
+            @NonNull
+            @Override
+            protected Flowable<MovieResponse> createCall() {
+                return movieDBService.getPopularMovies(Constants.API_KEY);
+            }
+        }.toFlowable();
+    }
+
+    private Flowable<Resource<List<Movie>>> loadUpcomingMovies() {
+        Timber.d("Loading Upcoming movies");
+        return new NetworkBoundResource<List<Movie>, MovieResponse>() {
+
+            @Override
+            protected boolean shouldFetch() {
+                return true;
+            }
+
+            @Override
+            protected void saveCallResult(MovieResponse item) {
+                if (item != null) {
+                    for (Movie movie : item.getMovies()) {
+                        movie.setCategory(Movie.UPCOMING);
+                    }
+                    movieDao.insertMovies(item.getMovies());
+                    Timber.d("Upcoming movies size: %d", item.getMovies().size());
+                }
+            }
+
+            @NonNull
+            @Override
+            protected Flowable<List<Movie>> loadFromDb() {
+                return movieDao.getUpcomingMovies();
+            }
+
+            @NonNull
+            @Override
+            protected Flowable<MovieResponse> createCall() {
+                return movieDBService.getUpcomingMovies(Constants.API_KEY);
+            }
+        }.toFlowable();
     }
 
     private void handleResult(MovieResponse movieResponse) {
         for (Movie movie : movieResponse.getMovies()) {
             Completable.fromAction(() -> movieDao.insertMovie(movie))
-                    .subscribeOn(Schedulers.io())
-                    .subscribe();
+                       .subscribeOn(Schedulers.io())
+                       .subscribe();
         }
     }
 

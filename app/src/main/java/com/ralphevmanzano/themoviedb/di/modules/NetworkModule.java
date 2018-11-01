@@ -2,7 +2,7 @@ package com.ralphevmanzano.themoviedb.di.modules;
 
 import com.ralphevmanzano.themoviedb.App;
 import com.ralphevmanzano.themoviedb.di.AppScope;
-import com.ralphevmanzano.themoviedb.network.DateJsonAdapter;
+import com.ralphevmanzano.themoviedb.data.remote.DateJsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.picasso.OkHttp3Downloader;
 

@@ -1,4 +1,4 @@
-package com.ralphevmanzano.themoviedb.network;
+package com.ralphevmanzano.themoviedb.data.remote;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

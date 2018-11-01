@@ -7,7 +7,7 @@
     <data>
         <variable
             name="movie"
-            type="com.ralphevmanzano.themoviedb.data.models.Movie"/>
+            type="com.ralphevmanzano.themoviedb.data.local.entity.Movie"/>
     </data>
 
     <androidx.cardview.widget.CardView

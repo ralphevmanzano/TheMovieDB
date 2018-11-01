@@ -1,15 +1,15 @@
 package com.ralphevmanzano.themoviedb.viewmodels;
 
 import com.ralphevmanzano.themoviedb.data.MovieRepository;
-import com.ralphevmanzano.themoviedb.data.models.Movie;
+import com.ralphevmanzano.themoviedb.data.Resource;
+import com.ralphevmanzano.themoviedb.data.local.entity.Movie;
+import com.ralphevmanzano.themoviedb.data.models.MovieCollection;
 import com.ralphevmanzano.themoviedb.utils.SchedulersFacade;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.LiveDataReactiveStreams;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import io.reactivex.disposables.CompositeDisposable;
@@ -20,7 +20,7 @@ public class MovieListViewModel extends ViewModel {
     private MovieRepository movieRepository;
     private SchedulersFacade schedulersFacade;
 
-    private final MutableLiveData<List<Movie>> movieList = new MutableLiveData<>();
+    private final MutableLiveData<Resource<MovieCollection>> movieList = new MutableLiveData<>();
 
     private final CompositeDisposable disposable = new CompositeDisposable();
 
@@ -36,14 +36,20 @@ public class MovieListViewModel extends ViewModel {
         disposable.clear();
     }
 
-    public MutableLiveData<List<Movie>> getMovies() {
+    public MutableLiveData<Resource<MovieCollection>> getMovies() {
         return movieList;
     }
 
     private void loadMovies() {
-        disposable.add(movieRepository.getMovieList()
+        disposable.add(movieRepository.loadCollectionMovies()
                                       .observeOn(schedulersFacade.ui())
                                       .subscribeOn(schedulersFacade.io())
-                                      .subscribe(movieList::setValue, Timber::e));
+                                      .doOnNext(movieCollectionResource -> {
+                                          assert movieCollectionResource.data != null;
+                                          Timber.d("load movies size %d", movieCollectionResource.data.getTotalMovies());
+                                          movieList.setValue(movieCollectionResource);
+                                      })
+                                      .doOnError(Throwable::printStackTrace)
+                                      .subscribe());
     }
 }

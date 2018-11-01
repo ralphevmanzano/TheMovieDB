@@ -1,10 +1,10 @@
 package com.ralphevmanzano.themoviedb.di.modules;
 
 import com.ralphevmanzano.themoviedb.App;
-import com.ralphevmanzano.themoviedb.data.MovieDao;
-import com.ralphevmanzano.themoviedb.data.MovieDatabase;
+import com.ralphevmanzano.themoviedb.data.local.dao.MovieDao;
+import com.ralphevmanzano.themoviedb.data.local.MovieDatabase;
 import com.ralphevmanzano.themoviedb.di.AppScope;
-import com.ralphevmanzano.themoviedb.network.MovieDBService;
+import com.ralphevmanzano.themoviedb.data.remote.MovieDBService;
 import com.ralphevmanzano.themoviedb.utils.Constants;
 import com.squareup.moshi.Moshi;
 import com.squareup.picasso.OkHttp3Downloader;

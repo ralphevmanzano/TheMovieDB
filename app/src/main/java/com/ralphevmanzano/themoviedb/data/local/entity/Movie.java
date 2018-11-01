@@ -1,4 +1,4 @@
-package com.ralphevmanzano.themoviedb.data.models;
+package com.ralphevmanzano.themoviedb.data.local.entity;
 
 import com.squareup.moshi.Json;
 
@@ -13,7 +13,8 @@ import androidx.room.PrimaryKey;
 public class Movie {
     public static final String KEY_VOTE_AVERAGE = "Movie.KEY_VOTE_AVERAGE";
     public static final String KEY_VOTE_COUNT = "Movie.KEY_VOTE_COUNT";
-
+    public static final int UPCOMING = 1;
+    public static final int POPULAR = 2;
 
     @PrimaryKey
     @Json(name = "id")
@@ -45,7 +46,7 @@ public class Movie {
     private String overview;
     @Json(name = "release_date")
     private String releaseDate;
-
+    private int category;
     private Date lastRefresh;
 
     /**
@@ -57,7 +58,7 @@ public class Movie {
     public Movie(int voteCount, int id, Boolean video, double voteAverage, String title,
                  double popularity, String posterPath, String originalLanguage, String originalTitle,
                  List<Integer> genreIds, String backdropPath, Boolean adult, String overview,
-                 String releaseDate, Date lastRefresh) {
+                 String releaseDate, Date lastRefresh, int category) {
         super();
         this.voteCount = voteCount;
         this.id = id;
@@ -74,6 +75,7 @@ public class Movie {
         this.overview = overview;
         this.releaseDate = releaseDate;
         this.lastRefresh = lastRefresh;
+        this.category = category;
     }
 
     public int getVoteCount() {
@@ -194,5 +196,13 @@ public class Movie {
 
     public void setLastRefresh(Date lastRefresh) {
         this.lastRefresh = lastRefresh;
+    }
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
     }
 }
