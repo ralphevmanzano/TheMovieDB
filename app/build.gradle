@@ -46,6 +46,7 @@ dependencies {
     implementation deps.android.lifecycleCommon
     implementation deps.android.lifecycleExt
     implementation deps.android.lifecycleReactiveStreams
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
     annotationProcessor deps.android.lifecycleCompiler
 
     implementation deps.jakeWharton.timber

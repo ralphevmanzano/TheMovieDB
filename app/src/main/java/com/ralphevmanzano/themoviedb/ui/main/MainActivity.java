@@ -5,46 +5,46 @@ import android.os.Bundle;
 import com.ralphevmanzano.themoviedb.R;
 import com.ralphevmanzano.themoviedb.ui.BaseActivity;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
+
+import static androidx.navigation.ui.NavigationUI.navigateUp;
+import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
 
 public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showFragment(MovieListFragment.class, false, null, null);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        NavHostFragment host = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        assert host != null;
+        navController = host.getNavController();
+        setupActionBar(navController);
+
+
+    }
+
+    private void setupActionBar(NavController navController) {
+        setupActionBarWithNavController(this, navController);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        return navigateUp(navController, (DrawerLayout) null);
     }
 
     @Override
     public int getLayoutRes() {
         return R.layout.activity_main;
-    }
-
-    public void showFragment(Class<?> fragmentClass, boolean addToBackStack, @Nullable String tag, @Nullable Bundle bundle) {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        Fragment fragment = Fragment.instantiate(this, fragmentClass.getName(), bundle);
-        transaction.replace(R.id.container, fragment, tag);
-        if (addToBackStack) transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-    public void clearBackStack() {
-        FragmentManager fm = getSupportFragmentManager();
-        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
-            fm.popBackStack();
-        }
-    }
-
-    public void popBackStack() {
-        FragmentManager fm = getSupportFragmentManager();
-        if (fm != null) {
-            fm.popBackStack();
-        }
     }
 }

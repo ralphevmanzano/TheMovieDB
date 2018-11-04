@@ -21,6 +21,7 @@
             android:fontFamily="@font/oswald_bold"
             android:includeFontPadding="false"
             android:layout_marginTop="40px"
+            android:textColor="@android:color/white"
             android:text="@{homedata.data}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintBottom_toBottomOf="parent"

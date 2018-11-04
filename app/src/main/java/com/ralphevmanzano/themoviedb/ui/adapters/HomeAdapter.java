@@ -10,6 +10,7 @@ import com.ralphevmanzano.themoviedb.data.models.HomeData;
 import com.ralphevmanzano.themoviedb.data.local.entity.Movie;
 import com.ralphevmanzano.themoviedb.databinding.ItemMovieListBinding;
 import com.ralphevmanzano.themoviedb.ui.BaseHomeAdapter;
+import com.ralphevmanzano.themoviedb.ui.main.MovieClickCallback;
 import com.ralphevmanzano.themoviedb.utils.MovieDiffCallback;
 
 import java.util.List;
@@ -26,9 +27,11 @@ import timber.log.Timber;
 public class HomeAdapter extends BaseHomeAdapter<HomeAdapter.HomeViewHolder> {
 
     private List<HomeData> movieList;
+    private MovieClickCallback clickCallback;
 
-    @Inject
-    public HomeAdapter() {
+
+    public HomeAdapter(MovieClickCallback clickCallback) {
+        this.clickCallback = clickCallback;
     }
 
     @Override
@@ -71,7 +74,7 @@ public class HomeAdapter extends BaseHomeAdapter<HomeAdapter.HomeViewHolder> {
         return 0;
     }
 
-    class HomeViewHolder extends RecyclerView.ViewHolder{
+    class HomeViewHolder extends RecyclerView.ViewHolder {
 
         ViewDataBinding binding;
         Context context;
@@ -87,7 +90,7 @@ public class HomeAdapter extends BaseHomeAdapter<HomeAdapter.HomeViewHolder> {
             binding.executePendingBindings();
 
             if (binding instanceof ItemMovieListBinding) {
-                MoviesAdapter adapter = new MoviesAdapter(new MovieDiffCallback());
+                MoviesAdapter adapter = new MoviesAdapter(new MovieDiffCallback(), clickCallback);
 
                 ((ItemMovieListBinding) binding).rvMovieList.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
                 ((ItemMovieListBinding) binding).rvMovieList.setAdapter(adapter);
