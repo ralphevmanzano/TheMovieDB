@@ -26,10 +26,10 @@ public class AppModule {
     @AppScope
     MovieDBService provideApiService(OkHttpClient okHttpClient, Moshi moshi) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.ENDPOINT)
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(okHttpClient)
-                .build();
+                                                  .addConverterFactory(MoshiConverterFactory.create(moshi))
+                                                  .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                                                  .client(okHttpClient)
+                                                  .build();
         return retrofit.create(MovieDBService.class);
     }
 
@@ -48,8 +48,9 @@ public class AppModule {
     @AppScope
     MovieDatabase provideMovieDatabase(App app) {
         return Room.databaseBuilder(app.getApplicationContext(), MovieDatabase.class, "movies.db")
-                .fallbackToDestructiveMigration()
-                .build();
+                   .fallbackToDestructiveMigration()
+                   .allowMainThreadQueries()
+                   .build();
     }
 
     @Provides

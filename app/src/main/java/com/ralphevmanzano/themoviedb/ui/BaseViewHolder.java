@@ -15,7 +15,7 @@ public class BaseViewHolder<T> extends RecyclerView.ViewHolder {
     }
 
     public void onBind(T data) {
-        binding.setVariable(BR.movie, data);
+        binding.setVariable(BR.minimizedMovie, data);
         binding.executePendingBindings();
     }
 }

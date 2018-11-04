@@ -1,6 +1,7 @@
 package com.ralphevmanzano.themoviedb.data;
 
 import com.ralphevmanzano.themoviedb.data.remote.ApiResponse;
+import com.ralphevmanzano.themoviedb.data.remote.model.MovieResponse;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,19 +24,14 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
         Flowable<Resource<ResultType>> source;
 
         if (shouldFetch()) {
-            Timber.d("should fetch true");
             source = createCall()
-                    .subscribeOn(Schedulers.io())
+                    .subscribeOn(Schedulers.newThread())
                     .doOnNext(apiResponse -> {
-                        Timber.d("Responseee %s", apiResponse.toString());
-//                        Timber.d("doOnNext %s", processResponse(apiResponse).toString());
+                        Timber.d("ApiResponse has %d", ((MovieResponse) apiResponse).getMovies().size());
                         saveCallResult(apiResponse);
                     })
                     .flatMap(apiResponse -> loadFromDb().map(Resource::success))
-                    .doOnError(t -> {
-                        Timber.e("onFetchFailed");
-                        onFetchFailed();
-                    })
+                    .doOnError(t -> onFetchFailed())
                     .onErrorResumeNext(t -> {
                         return loadFromDb().map(data -> Resource.error(t.getMessage(), data));
                     })

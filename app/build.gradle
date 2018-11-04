@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: "androidx.navigation.safeargs"
 
 android {
     compileSdkVersion 28
@@ -38,6 +39,8 @@ dependencies {
     implementation deps.support.designSupport
     implementation deps.support.support
     implementation deps.support.recyclerView
+    implementation deps.support.navigationFrag
+    implementation deps.support.navigationUi
 
     implementation deps.android.lifecycleRuntime
     implementation deps.android.lifecycleCommon
@@ -71,6 +74,8 @@ dependencies {
     implementation deps.room.roomRuntime
     implementation deps.room.roomRx
     annotationProcessor deps.room.roomCompiler
+
+    implementation deps.custom.cropImageView
 
     testImplementation deps.test.junit
     androidTestImplementation deps.test.testRunner

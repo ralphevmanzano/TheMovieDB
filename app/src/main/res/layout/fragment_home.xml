@@ -13,18 +13,22 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/card_view_activity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/homeBg">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMovies"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:paddingBottom="32px"
+            android:clipToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:resource="@{resource}"/>
+            app:resource="@{resource}"
+            tools:ignore="PxUsage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -2,6 +2,7 @@ package com.ralphevmanzano.themoviedb.data;
 
 import com.ralphevmanzano.themoviedb.data.local.dao.MovieDao;
 import com.ralphevmanzano.themoviedb.data.local.entity.Movie;
+import com.ralphevmanzano.themoviedb.data.models.MinimizedMovie;
 import com.ralphevmanzano.themoviedb.data.models.MovieCollection;
 import com.ralphevmanzano.themoviedb.data.remote.MovieDBService;
 import com.ralphevmanzano.themoviedb.data.remote.model.MovieResponse;
@@ -12,9 +13,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
-import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class MovieRepository {
@@ -32,20 +31,30 @@ public class MovieRepository {
     }
 
     public Flowable<Resource<MovieCollection>> loadCollectionMovies() {
-        return Flowable.zip(loadUpcomingMovies(), loadPopularMovies(), (nowPlayingMovies, popularMovies) -> {
-            assert nowPlayingMovies.data != null;
-            Timber.d("Upcoming movies size collection: %d", nowPlayingMovies.data.size());
+        return Flowable.zip(loadMovies(Movie.NOW_PLAYING, Constants.API_NOW_PLAYING),
+                            loadMovies(Movie.POPULAR, Constants.API_POPULAR),
+                            loadMovies(Movie.TOP_RATED, Constants.API_TOP_RATED),
+                            loadMovies(Movie.UPCOMING, Constants.API_UPCOMING),
+                            (np, pop, top, up) -> {
+                                assert np.data != null;
+                                Timber.d("Now playing movies size collection: %d", np.data.size());
 
-            assert popularMovies.data != null;
-            Timber.d("Popular movies size collection: %d", popularMovies.data.size());
+                                assert pop.data != null;
+                                Timber.d("Popular movies size collection: %d", pop.data.size());
 
-            return Resource.success(new MovieCollection(nowPlayingMovies.data, popularMovies.data));
-        });
+                                assert top.data != null;
+                                Timber.d("Top rated movies size collection: %d", top.data.size());
+
+                                assert up.data != null;
+                                Timber.d("Upcoming movies size collection: %d", up.data.size());
+
+                                return Resource.success(new MovieCollection(np.data, pop.data, top.data, up.data));
+                            });
     }
 
-    private Flowable<Resource<List<Movie>>> loadPopularMovies() {
-        Timber.d("Loading popular movies");
-        return new NetworkBoundResource<List<Movie>, MovieResponse>() {
+    private Flowable<Resource<List<MinimizedMovie>>> loadMovies(int category, String apiCategory) {
+        Timber.d("Loading %s movies", apiCategory);
+        return new NetworkBoundResource<List<MinimizedMovie>, MovieResponse>() {
 
             @Override
             protected boolean shouldFetch() {
@@ -56,71 +65,28 @@ public class MovieRepository {
             protected void saveCallResult(MovieResponse item) {
                 if (item != null) {
                     for (Movie movie : item.getMovies()) {
-                        movie.setCategory(Movie.POPULAR);
+                        movie.setCategory(category);
                     }
                     movieDao.insertMovies(item.getMovies());
-                    Timber.d("Popular movies size: %d", item.getMovies().size());
+                    Timber.d("save call result popular movies size: %d", item.getMovies().size());
                 }
             }
 
             @NonNull
             @Override
-            protected Flowable<List<Movie>> loadFromDb() {
-                return movieDao.getPopularMovies();
-            }
-
-            @NonNull
-            @Override
-            protected Flowable<MovieResponse> createCall() {
-                return movieDBService.getPopularMovies(Constants.API_KEY);
-            }
-        }.toFlowable();
-    }
-
-    private Flowable<Resource<List<Movie>>> loadUpcomingMovies() {
-        Timber.d("Loading Upcoming movies");
-        return new NetworkBoundResource<List<Movie>, MovieResponse>() {
-
-            @Override
-            protected boolean shouldFetch() {
-                return true;
-            }
-
-            @Override
-            protected void saveCallResult(MovieResponse item) {
-                if (item != null) {
-                    for (Movie movie : item.getMovies()) {
-                        movie.setCategory(Movie.UPCOMING);
-                    }
-                    movieDao.insertMovies(item.getMovies());
-                    Timber.d("Upcoming movies size: %d", item.getMovies().size());
+            protected Flowable<List<MinimizedMovie>> loadFromDb() {
+                if (category == Movie.NOW_PLAYING) {
+                    return movieDao.getNowPlayingMovies(category);
                 }
-            }
-
-            @NonNull
-            @Override
-            protected Flowable<List<Movie>> loadFromDb() {
-                return movieDao.getUpcomingMovies();
+                return movieDao.getMoviesPosterPath(category);
             }
 
             @NonNull
             @Override
             protected Flowable<MovieResponse> createCall() {
-                return movieDBService.getUpcomingMovies(Constants.API_KEY);
+                return movieDBService.getMovies(apiCategory, Constants.API_KEY);
             }
         }.toFlowable();
-    }
-
-    private void handleResult(MovieResponse movieResponse) {
-        for (Movie movie : movieResponse.getMovies()) {
-            Completable.fromAction(() -> movieDao.insertMovie(movie))
-                       .subscribeOn(Schedulers.io())
-                       .subscribe();
-        }
-    }
-
-    private void handleError(Throwable t) {
-        Timber.e(t, "onError: error fetching from retrofit %s", t.getLocalizedMessage());
     }
 
     private boolean refreshMovieList() {

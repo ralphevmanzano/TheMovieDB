@@ -17,12 +17,17 @@
             android:id="@+id/txtHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_marginStart="32px"
+            android:fontFamily="@font/oswald_bold"
+            android:includeFontPadding="false"
+            android:layout_marginTop="40px"
             android:text="@{homedata.data}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Discover" />
+            tools:text="Discover"
+            tools:ignore="PxUsage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -33,7 +33,6 @@ public class HomeAdapter extends BaseHomeAdapter<HomeAdapter.HomeViewHolder> {
 
     @Override
     public void setData(List<HomeData> movieList) {
-        Timber.d("setData called %s", movieList.size());
         this.movieList = movieList;
         notifyDataSetChanged();
     }
@@ -66,6 +65,8 @@ public class HomeAdapter extends BaseHomeAdapter<HomeAdapter.HomeViewHolder> {
                 return R.layout.item_movie_label;
             case HomeData.MOVIE_LIST:
                 return R.layout.item_movie_list;
+            case HomeData.LATEST:
+                return R.layout.item_movie_latest;
         }
         return 0;
     }
@@ -84,6 +85,7 @@ public class HomeAdapter extends BaseHomeAdapter<HomeAdapter.HomeViewHolder> {
         void onBind(HomeData data) {
             binding.setVariable(BR.homedata, data);
             binding.executePendingBindings();
+
             if (binding instanceof ItemMovieListBinding) {
                 MoviesAdapter adapter = new MoviesAdapter(new MovieDiffCallback());
 

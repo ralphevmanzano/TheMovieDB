@@ -5,6 +5,7 @@ import com.squareup.moshi.Json;
 import java.util.Date;
 import java.util.List;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -13,10 +14,14 @@ import androidx.room.PrimaryKey;
 public class Movie {
     public static final String KEY_VOTE_AVERAGE = "Movie.KEY_VOTE_AVERAGE";
     public static final String KEY_VOTE_COUNT = "Movie.KEY_VOTE_COUNT";
-    public static final int UPCOMING = 1;
+    public static final int NOW_PLAYING = 1;
     public static final int POPULAR = 2;
+    public static final int TOP_RATED = 3;
+    public static final int UPCOMING = 4;
+    public static final int LATEST = 5;
 
     @PrimaryKey
+    @ColumnInfo(name = "id")
     @Json(name = "id")
     private int id;
     @Json(name = "vote_count")
@@ -30,6 +35,7 @@ public class Movie {
     @Json(name = "popularity")
     private double popularity;
     @Json(name = "poster_path")
+    @ColumnInfo(name = "posterPath")
     private String posterPath;
     @Json(name = "original_language")
     private String originalLanguage;
@@ -39,6 +45,7 @@ public class Movie {
     @Ignore
     private List<Integer> genreIds = null;
     @Json(name = "backdrop_path")
+    @ColumnInfo(name = "backdropPath")
     private String backdropPath;
     @Json(name = "adult")
     private Boolean adult;
