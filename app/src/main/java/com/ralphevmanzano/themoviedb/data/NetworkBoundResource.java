@@ -25,7 +25,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
 
         if (shouldFetch()) {
             source = createCall()
-                    .subscribeOn(Schedulers.newThread())
+                    .subscribeOn(Schedulers.io())
                     .doOnNext(apiResponse -> {
                         Timber.d("ApiResponse has %d", ((MovieResponse) apiResponse).getMovies().size());
                         saveCallResult(apiResponse);
@@ -42,6 +42,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                     .map(Resource::success);
         }
         result = Flowable.concat(loadFromDb().map(Resource::loading).take(1), source);
+//        result = source;
     }
 
     protected void onFetchFailed() {

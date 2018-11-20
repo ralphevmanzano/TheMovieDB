@@ -22,7 +22,8 @@ public final class MovieListBindingAdapter {
         if (adapter instanceof HomeAdapter) {
             if (resource.data instanceof MovieCollection) {
                 List<HomeData> homeData = new ArrayList<>();
-                homeData.add(new HomeData(HomeData.LATEST, ((MovieCollection) resource.data).getNowPlayingMovies().get(0)));
+                if (((MovieCollection) resource.data).getNowPlayingMovies().size() != 0)
+                    homeData.add(new HomeData(HomeData.LATEST, ((MovieCollection) resource.data).getNowPlayingMovies().get(0)));
                 homeData.add(new HomeData(HomeData.HEADER, "Now Playing"));
                 homeData.add(new HomeData(HomeData.MOVIE_LIST, ((MovieCollection) resource.data).getNowPlayingMovies()));
                 homeData.add(new HomeData(HomeData.HEADER, "Popular"));

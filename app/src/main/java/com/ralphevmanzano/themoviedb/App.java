@@ -3,6 +3,7 @@ package com.ralphevmanzano.themoviedb;
 import android.app.Activity;
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.ralphevmanzano.themoviedb.di.DaggerAppComponent;
 
 import javax.inject.Inject;
@@ -24,12 +25,11 @@ public class App extends Application implements HasActivityInjector {
         super.onCreate();
         Timber.plant(new Timber.DebugTree());
         DaggerAppComponent.builder()
-                .application(this)
-                .build()
-                .inject(this);
+                          .application(this)
+                          .build()
+                          .inject(this);
 
-//        DataBindingUtil.setDefaultComponent();
-//
+        Stetho.initializeWithDefaults(this);
     }
 
     @Override

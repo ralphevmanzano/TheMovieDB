@@ -2,22 +2,27 @@ package com.ralphevmanzano.themoviedb.data.models;
 
 import com.squareup.moshi.Json;
 
+import java.util.List;
+
 public class MinimizedMovie {
 
     @Json(name = "id")
-    private int id;
+    private long id;
     @Json(name = "poster_path")
     private String posterPath;
     @Json(name = "backdrop_path")
     private String backdropPath;
+    @Json(name = "category")
+    private String category;
 
-    public MinimizedMovie(int id, String posterPath, String backdropPath) {
+    public MinimizedMovie(long id, String posterPath, String backdropPath, String category) {
         this.id = id;
         this.posterPath = posterPath;
         this.backdropPath = backdropPath;
+        this.category = category;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -27,5 +32,9 @@ public class MinimizedMovie {
 
     public String getBackdropPath() {
         return backdropPath;
+    }
+
+    public String getCategory() {
+        return category;
     }
 }

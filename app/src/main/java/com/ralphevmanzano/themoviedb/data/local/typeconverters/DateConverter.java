@@ -1,4 +1,4 @@
-package com.ralphevmanzano.themoviedb.data;
+package com.ralphevmanzano.themoviedb.data.local.typeconverters;
 
 import java.util.Date;
 

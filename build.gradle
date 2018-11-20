@@ -24,6 +24,8 @@ buildscript {
             'moshiConverter'   : '2.4.0',
             'cropImageView'    : '1.0.2.1',
             'navVersion'       : '1.0.0-alpha07',
+            'stetho'           : '1.5.0',
+            'stethoOkHttp'     : '1.5.0',
             'sourceCompat'     : JavaVersion.VERSION_1_8,
             'targetCompat'     : JavaVersion.VERSION_1_8
     ]
@@ -79,7 +81,9 @@ buildscript {
                     'timber'             : "com.jakewharton.timber:timber:${versions.timber}"
             ],
             custom     : [
-                    'cropImageView': "com.cesards.android:cropimageview:${versions.cropImageView}"
+                    'cropImageView': "com.cesards.android:cropimageview:${versions.cropImageView}",
+                    'stetho': "com.facebook.stetho:stetho:${versions.stetho}",
+                    'stethoOkHttp': "com.facebook.stetho:stetho-okhttp3:${versions.stethoOkHttp}"
             ],
             test       : [
                     'junit'     : "junit:junit:${versions.junit}",

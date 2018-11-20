@@ -2,6 +2,7 @@ package com.ralphevmanzano.themoviedb.data.local.entity;
 
 import com.squareup.moshi.Json;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Movie {
     @PrimaryKey
     @ColumnInfo(name = "id")
     @Json(name = "id")
-    private int id;
+    private long id;
     @Json(name = "vote_count")
     private int voteCount;
     @Json(name = "video")
@@ -42,7 +43,6 @@ public class Movie {
     @Json(name = "original_title")
     private String originalTitle;
     @Json(name = "genre_ids")
-    @Ignore
     private List<Integer> genreIds = null;
     @Json(name = "backdrop_path")
     @ColumnInfo(name = "backdropPath")
@@ -53,36 +53,14 @@ public class Movie {
     private String overview;
     @Json(name = "release_date")
     private String releaseDate;
-    private int category;
+    @Json(name = "category")
+    private String category;
     private Date lastRefresh;
 
     /**
      * No args constructor for use in serialization
      */
     public Movie() {
-    }
-
-    public Movie(int voteCount, int id, Boolean video, double voteAverage, String title,
-                 double popularity, String posterPath, String originalLanguage, String originalTitle,
-                 List<Integer> genreIds, String backdropPath, Boolean adult, String overview,
-                 String releaseDate, Date lastRefresh, int category) {
-        super();
-        this.voteCount = voteCount;
-        this.id = id;
-        this.video = video;
-        this.voteAverage = voteAverage;
-        this.title = title;
-        this.popularity = popularity;
-        this.posterPath = posterPath;
-        this.originalLanguage = originalLanguage;
-        this.originalTitle = originalTitle;
-        this.genreIds = genreIds;
-        this.backdropPath = backdropPath;
-        this.adult = adult;
-        this.overview = overview;
-        this.releaseDate = releaseDate;
-        this.lastRefresh = lastRefresh;
-        this.category = category;
     }
 
     public int getVoteCount() {
@@ -93,11 +71,11 @@ public class Movie {
         this.voteCount = voteCount;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -205,11 +183,11 @@ public class Movie {
         this.lastRefresh = lastRefresh;
     }
 
-    public int getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(int category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 }

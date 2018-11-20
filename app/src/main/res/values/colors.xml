@@ -8,4 +8,5 @@
     <color name="recViewBg">#cee5f4</color>
     <color name="textViewBg">#232d6e</color>
     <color name="homeBg">#081C24</color>
+    <color name="shimmerBg">#dddddd</color>
 </resources>

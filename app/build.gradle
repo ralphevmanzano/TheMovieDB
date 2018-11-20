@@ -77,6 +77,8 @@ dependencies {
     annotationProcessor deps.room.roomCompiler
 
     implementation deps.custom.cropImageView
+    implementation deps.custom.stetho
+    implementation deps.custom.stethoOkHttp
 
     testImplementation deps.test.junit
     androidTestImplementation deps.test.testRunner

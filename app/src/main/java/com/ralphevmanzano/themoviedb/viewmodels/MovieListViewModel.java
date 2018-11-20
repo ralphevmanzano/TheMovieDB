@@ -7,6 +7,7 @@ import com.ralphevmanzano.themoviedb.data.models.MovieCollection;
 import com.ralphevmanzano.themoviedb.utils.SchedulersFacade;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 

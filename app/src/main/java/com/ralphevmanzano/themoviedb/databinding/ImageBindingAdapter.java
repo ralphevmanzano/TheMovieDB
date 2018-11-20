@@ -2,6 +2,7 @@ package com.ralphevmanzano.themoviedb.databinding;
 
 import android.widget.ImageView;
 
+import com.ralphevmanzano.themoviedb.R;
 import com.ralphevmanzano.themoviedb.utils.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -15,7 +16,7 @@ public final class ImageBindingAdapter {
     @BindingAdapter("url")
     public static void loadImageUrl(ImageView imageView, String url) {
         if (url != null && !url.trim().isEmpty()) {
-            Picasso.get().load(Constants.IMAGE_ENDPOINT_PREFIX + url).resize(300, 450).into(imageView);
+            Picasso.get().load(Constants.IMAGE_ENDPOINT_PREFIX + url).resize(300, 450).placeholder(R.color.shimmerBg).into(imageView);
         }
     }
 }

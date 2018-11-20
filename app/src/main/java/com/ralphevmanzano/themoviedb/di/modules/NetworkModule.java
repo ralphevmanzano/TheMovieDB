@@ -1,5 +1,6 @@
 package com.ralphevmanzano.themoviedb.di.modules;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.ralphevmanzano.themoviedb.App;
 import com.ralphevmanzano.themoviedb.di.AppScope;
 import com.ralphevmanzano.themoviedb.data.remote.DateJsonAdapter;
@@ -40,9 +41,10 @@ public class NetworkModule {
 
     @Provides
     @AppScope
-    OkHttpClient okHttpClient(HttpLoggingInterceptor loggingInterceptor, Cache cache) {
+    OkHttpClient okHttpClient(HttpLoggingInterceptor loggingInterceptor, StethoInterceptor stethoInterceptor, Cache cache) {
         return new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
+                .addInterceptor(stethoInterceptor)
                 .cache(cache)
                 .build();
     }
@@ -53,13 +55,11 @@ public class NetworkModule {
         return new OkHttp3Downloader(okHttpClient);
     }
 
-//    @Provides
-//    @AppScope
-//    Gson gson() {
-//        GsonBuilder gsonBuilder = new GsonBuilder();
-//        gsonBuilder.registerTypeAdapter(Date.class, new DateConverter());
-//        return gsonBuilder.create();
-//    }
+    @Provides
+    @AppScope
+    StethoInterceptor stethoInterceptor() {
+        return new StethoInterceptor();
+    }
 
     @Provides
     @AppScope

@@ -20,7 +20,6 @@ import java.util.Locale;
 public class DateJsonAdapter {
 
     final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-    //dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));  IF NEEDED
 
     @ToJson synchronized String dateToJson(Date d) {
         return dateFormat.format(d);

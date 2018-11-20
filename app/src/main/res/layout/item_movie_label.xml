@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="homedata"
-            type="com.ralphevmanzano.themoviedb.data.models.HomeData"/>
+            type="com.ralphevmanzano.themoviedb.data.models.HomeData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,17 +19,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32px"
+            android:layout_marginTop="40px"
             android:fontFamily="@font/oswald_bold"
             android:includeFontPadding="false"
-            android:layout_marginTop="40px"
-            android:textColor="@android:color/white"
             android:text="@{homedata.data}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Discover"
-            tools:ignore="PxUsage" />
+            tools:ignore="PxUsage"
+            tools:text="Discover" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

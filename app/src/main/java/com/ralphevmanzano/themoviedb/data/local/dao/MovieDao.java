@@ -3,34 +3,53 @@ package com.ralphevmanzano.themoviedb.data.local.dao;
 import com.ralphevmanzano.themoviedb.data.local.entity.Movie;
 import com.ralphevmanzano.themoviedb.data.models.MinimizedMovie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
+import timber.log.Timber;
 
 @Dao
-public interface MovieDao {
+public abstract class MovieDao extends BaseDao<Movie> {
 
-    @Query("SELECT * FROM TABLE_MOVIE WHERE category = :category")
-    Flowable<List<Movie>> getMovies(int category);
+    @Query("SELECT * FROM TABLE_MOVIE")
+    public abstract Flowable<List<Movie>> getMovies();
 
-    @Query("SELECT id, posterPath, backdropPath FROM TABLE_MOVIE WHERE category = :category")
-    Flowable<List<MinimizedMovie>> getMoviesPosterPath(int category);
+    @Query("SELECT * FROM TABLE_MOVIE WHERE id = :id")
+    public abstract Movie getMovie(long id);
 
-    @Query("SELECT id, posterPath, backdropPath FROM table_movie WHERE category = :category ORDER BY releaseDate DESC")
-    Flowable<List<MinimizedMovie>> getNowPlayingMovies(int category);
+    @Transaction
+    @Query("SELECT id, posterPath, backdropPath, category FROM TABLE_MOVIE WHERE category LIKE '%' || :category || '%'")
+    public abstract Flowable<List<MinimizedMovie>> getMiniminzedMovies(String category);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMovies(List<Movie> movies);
+    @Transaction
+    @Query("SELECT id, posterPath, backdropPath, category FROM table_movie WHERE category LIKE '%' || :category || '%' ORDER BY releaseDate DESC")
+    public abstract Flowable<List<MinimizedMovie>> getNowPlayingMovies(String category);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMovie(Movie movie);
+    @Override
+    public void upsert(List<Movie> objList) {
+        List<Long> insertResult = insert(objList);
+        List<Movie> updateList = new ArrayList<>();
 
-    @Query("SELECT COUNT(*) FROM TABLE_MOVIE")
-    Single<Integer> getNumberOfRows();
+        for (int i = 0; i < insertResult.size(); i++) {
+            Timber.d("upsert ids %d", insertResult.get(i));
+            if (insertResult.get(i) == -1) {
+                Movie temp = getMovie(objList.get(i).getId());
+                //TODO: Check if naa nay number na ani, if wala concat
+                temp.setCategory(temp.getCategory().concat(objList.get(i).getCategory()));
+                updateList.add(temp);
+            }
+        }
+
+        if (!updateList.isEmpty()) {
+            update(updateList);
+        }
+    }
 
 }
