@@ -8,14 +8,20 @@
     <fragment
         android:id="@+id/movie_list_dest"
         android:name="com.ralphevmanzano.themoviedb.ui.main.MovieListFragment"
-        android:label="MovieListFragment" >
+        android:label="MovieListFragment">
         <action
             android:id="@+id/move_to_details"
-            app:destination="@id/movie_details_dest" />
+            app:destination="@id/movie_details_dest"
+            app:enterAnim="@anim/window_fade_in"
+            app:exitAnim="@anim/window_fade_out"
+            app:popEnterAnim="@anim/window_fade_in"
+            app:popExitAnim="@anim/window_fade_out"/>
     </fragment>
     <fragment
         android:id="@+id/movie_details_dest"
         android:name="com.ralphevmanzano.themoviedb.ui.details.MovieDetailsFragment"
         android:label="fragment_movie_details"
-        tools:layout="@layout/fragment_movie_details" ></fragment>
+        tools:layout="@layout/fragment_movie_details">
+    </fragment>
+
 </navigation>

@@ -13,7 +13,6 @@ public class MoviesAdapter extends BaseAdapter<Movie> {
 
     MoviesAdapter(@NonNull DiffUtil.ItemCallback<Movie> diffCallback, MovieClickCallback clickCallback) {
         super(diffCallback, clickCallback);
-        Timber.d("Movies Adapter");
     }
 
     @Override

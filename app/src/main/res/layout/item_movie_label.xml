@@ -23,6 +23,7 @@
             android:fontFamily="@font/oswald_bold"
             android:includeFontPadding="false"
             android:text="@{homedata.data}"
+            android:textColor="@android:color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -15,6 +15,8 @@ import com.ralphevmanzano.themoviedb.utils.MovieDiffCallback;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
@@ -25,7 +27,6 @@ public class HomeAdapter extends BaseHomeAdapter<HomeAdapter.HomeViewHolder> {
 
     private List<HomeData> movieList;
     private MovieClickCallback clickCallback;
-
 
     public HomeAdapter(MovieClickCallback clickCallback) {
         this.clickCallback = clickCallback;

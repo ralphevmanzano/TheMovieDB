@@ -8,7 +8,7 @@ import dagger.android.ContributesAndroidInjector;
 
 @Module
 public abstract class FragmentBuildersModule {
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = MovieListFragmentModule.class)
     abstract MovieListFragment contributeMovieListFragment();
 
     @ContributesAndroidInjector

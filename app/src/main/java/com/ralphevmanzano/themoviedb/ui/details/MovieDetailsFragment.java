@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.ralphevmanzano.themoviedb.R;
 import com.ralphevmanzano.themoviedb.data.models.MinimizedMovie;
@@ -25,7 +24,6 @@ import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.transition.TransitionInflater;
-import timber.log.Timber;
 
 
 /**
@@ -34,9 +32,19 @@ import timber.log.Timber;
 public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, FragmentMovieDetailsBinding> {
 
     private SharedViewModel<MinimizedMovie> sharedViewModel;
+    private String imgUrl;
 
     public MovieDetailsFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (Objects.requireNonNull(bundle).containsKey("imgUrl")) {
+            imgUrl = bundle.getString("imgUrl");
+        }
     }
 
     @Override
@@ -64,6 +72,20 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Fr
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         assert getArguments() != null;
         sharedViewModel.getSelected().observe(getViewLifecycleOwner(),
-                minimizedMovie -> binding.setMovie(minimizedMovie));
+                minimizedMovie -> binding.tv.setText(String.valueOf(minimizedMovie.getId()))
+        );
+
+        ViewCompat.setTransitionName(binding.imgMovieDetails, imgUrl);
+        Picasso.get().load(Constants.IMAGE_ENDPOINT_PREFIX + imgUrl).into(binding.imgMovieDetails, new Callback() {
+            @Override
+            public void onSuccess() {
+                startPostponedEnterTransition();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                startPostponedEnterTransition();
+            }
+        });
     }
 }
