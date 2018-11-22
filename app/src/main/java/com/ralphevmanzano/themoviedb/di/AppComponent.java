@@ -8,19 +8,13 @@ import com.squareup.picasso.Picasso;
 
 import dagger.BindsInstance;
 import dagger.Component;
+import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 
 @AppScope
 @Component(modules = {AppModule.class, AndroidSupportInjectionModule.class, ActivityBuildersModule.class})
-public interface AppComponent {
-
-    void inject(App app);
+public interface AppComponent extends AndroidInjector<App> {
 
     @Component.Builder
-    interface Builder {
-        @BindsInstance
-        Builder application(App application);
-
-        AppComponent build();
-    }
+    abstract class Builder extends AndroidInjector.Builder<App>{}
 }

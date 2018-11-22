@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="movie"
+            type="com.ralphevmanzano.themoviedb.data.models.MinimizedMovie"/>
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,7 +19,7 @@
             android:id="@+id/tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:text="@{String.valueOf(movie.id)}" />
 
         <ImageView
             android:id="@+id/img_movie"
@@ -21,6 +27,8 @@
             android:layout_height="450px"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
+            android:transitionName="@{movie.posterPath}"
+            app:sharedElement="@{movie.posterPath}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv"
             tools:ignore="ContentDescription,PxUsage" />

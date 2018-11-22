@@ -21,13 +21,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.transition.TransitionInflater;
 import timber.log.Timber;
 
 /**
  * A simple {@link androidx.fragment.app.Fragment} subclass.
  */
-public class MovieListFragment extends BaseFragment<MovieListViewModel, FragmentHomeBinding> implements MovieClickCallback{
+public class MovieListFragment extends BaseFragment<MovieListViewModel, FragmentHomeBinding> implements MovieClickCallback {
 
     private SharedViewModel<MinimizedMovie> sharedViewModel;
 
@@ -53,6 +55,7 @@ public class MovieListFragment extends BaseFragment<MovieListViewModel, Fragment
         View view = super.onCreateView(inflater, container, savedInstanceState);
         sharedViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(SharedViewModel.class);
         setupViews();
+        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
         return view;
     }
 
@@ -60,6 +63,7 @@ public class MovieListFragment extends BaseFragment<MovieListViewModel, Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getMovieList();
+        postponeEnterTransition();
     }
 
     private void setupViews() {
@@ -67,6 +71,10 @@ public class MovieListFragment extends BaseFragment<MovieListViewModel, Fragment
         binding.rvMovies.setLayoutManager(new LinearLayoutManager(getActivity()));
         HomeAdapter homeAdapter = new HomeAdapter(this);
         binding.rvMovies.setAdapter(homeAdapter);
+        binding.rvMovies.getViewTreeObserver().addOnPreDrawListener(() -> {
+            startPostponedEnterTransition();
+            return true;
+        });
     }
 
     private void getMovieList() {
@@ -83,6 +91,9 @@ public class MovieListFragment extends BaseFragment<MovieListViewModel, Fragment
     public void onMovieClicked(MinimizedMovie movie, View rootView, View sharedView) {
         Toast.makeText(getContext(), String.valueOf(movie.getId()), Toast.LENGTH_SHORT).show();
         sharedViewModel.select(movie);
-        Navigation.findNavController(rootView).navigate(R.id.move_to_details);
+        FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
+                .addSharedElement(sharedView, movie.getPosterPath())
+                .build();
+        Navigation.findNavController(rootView).navigate(R.id.movie_details_dest, null, null, extras);
     }
 }

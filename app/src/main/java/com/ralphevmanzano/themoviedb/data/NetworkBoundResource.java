@@ -42,7 +42,6 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                     .map(Resource::success);
         }
         result = Flowable.concat(loadFromDb().map(Resource::loading).take(1), source);
-//        result = source;
     }
 
     protected void onFetchFailed() {

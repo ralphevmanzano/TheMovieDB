@@ -38,12 +38,12 @@ public abstract class MovieDao extends BaseDao<Movie> {
         List<Movie> updateList = new ArrayList<>();
 
         for (int i = 0; i < insertResult.size(); i++) {
-            Timber.d("upsert ids %d", insertResult.get(i));
             if (insertResult.get(i) == -1) {
                 Movie temp = getMovie(objList.get(i).getId());
-                //TODO: Check if naa nay number na ani, if wala concat
-                temp.setCategory(temp.getCategory().concat(objList.get(i).getCategory()));
-                updateList.add(temp);
+                if (!temp.getCategory().contains(objList.get(i).getCategory())) {
+                    temp.setCategory(temp.getCategory().concat(objList.get(i).getCategory()));
+                    updateList.add(temp);
+                }
             }
         }
 

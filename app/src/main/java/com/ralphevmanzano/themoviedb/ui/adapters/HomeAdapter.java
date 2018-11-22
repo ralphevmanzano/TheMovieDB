@@ -15,14 +15,11 @@ import com.ralphevmanzano.themoviedb.utils.MovieDiffCallback;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import timber.log.Timber;
 
 public class HomeAdapter extends BaseHomeAdapter<HomeAdapter.HomeViewHolder> {
 
@@ -85,6 +82,7 @@ public class HomeAdapter extends BaseHomeAdapter<HomeAdapter.HomeViewHolder> {
             this.context = context;
         }
 
+        @SuppressWarnings("unchecked")
         void onBind(HomeData data) {
             binding.setVariable(BR.homedata, data);
             binding.executePendingBindings();

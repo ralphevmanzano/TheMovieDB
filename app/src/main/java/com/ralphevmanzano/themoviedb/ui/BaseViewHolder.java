@@ -1,7 +1,5 @@
 package com.ralphevmanzano.themoviedb.ui;
 
-import android.view.View;
-
 import com.ralphevmanzano.themoviedb.BR;
 import com.ralphevmanzano.themoviedb.databinding.ItemMovieBinding;
 import com.ralphevmanzano.themoviedb.ui.main.MovieClickCallback;
