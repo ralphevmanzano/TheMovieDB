@@ -1,10 +1,11 @@
 package com.ralphevmanzano.themoviedb.di.modules;
 
 import com.ralphevmanzano.themoviedb.App;
-import com.ralphevmanzano.themoviedb.data.local.dao.MovieDao;
 import com.ralphevmanzano.themoviedb.data.local.MovieDatabase;
-import com.ralphevmanzano.themoviedb.di.AppScope;
+import com.ralphevmanzano.themoviedb.data.local.dao.MovieDao;
+import com.ralphevmanzano.themoviedb.data.local.dao.MovieDetailsDao;
 import com.ralphevmanzano.themoviedb.data.remote.MovieDBService;
+import com.ralphevmanzano.themoviedb.di.AppScope;
 import com.ralphevmanzano.themoviedb.utils.Constants;
 import com.squareup.moshi.Moshi;
 import com.squareup.picasso.OkHttp3Downloader;
@@ -57,6 +58,12 @@ public class AppModule {
     @AppScope
     MovieDao provideMovieDao(MovieDatabase movieDatabase) {
         return movieDatabase.movieDao();
+    }
+
+    @Provides
+    @AppScope
+    MovieDetailsDao provideMovieDetailsDao(MovieDatabase movieDatabase) {
+        return movieDatabase.movieDetailsDao();
     }
 
 }

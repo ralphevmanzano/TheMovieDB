@@ -24,6 +24,7 @@ import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.transition.TransitionInflater;
+import timber.log.Timber;
 
 
 /**
@@ -72,7 +73,7 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Fr
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         assert getArguments() != null;
         sharedViewModel.getSelected().observe(getViewLifecycleOwner(),
-                minimizedMovie -> binding.tv.setText(String.valueOf(minimizedMovie.getId()))
+                minimizedMovie -> getMovieDetails(minimizedMovie.getId())
         );
 
         ViewCompat.setTransitionName(binding.imgMovieDetails, imgUrl);
@@ -86,6 +87,13 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Fr
             public void onError(Exception e) {
                 startPostponedEnterTransition();
             }
+        });
+    }
+
+    private void getMovieDetails(long id) {
+        viewModel.getMovieDetails(id).observe(getViewLifecycleOwner(), movieDetailsResource -> {
+            Timber.d("movie details status %s", movieDetailsResource.status);
+            Timber.d("Movie details %s", Objects.requireNonNull(movieDetailsResource.data).getHomepage());
         });
     }
 }

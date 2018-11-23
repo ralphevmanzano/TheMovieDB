@@ -1,4 +1,4 @@
-package com.ralphevmanzano.themoviedb.data.remote.model;
+package com.ralphevmanzano.themoviedb.data.models;
 
 import com.ralphevmanzano.themoviedb.data.local.entity.Movie;
 import com.squareup.moshi.Json;

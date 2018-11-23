@@ -1,11 +1,7 @@
 package com.ralphevmanzano.themoviedb.data;
 
 import com.ralphevmanzano.themoviedb.data.remote.ApiResponse;
-import com.ralphevmanzano.themoviedb.data.remote.model.MovieResponse;
-
-import org.jetbrains.annotations.NotNull;
-
-import javax.xml.transform.Result;
+import com.ralphevmanzano.themoviedb.data.models.MovieResponse;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
@@ -26,10 +22,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
         if (shouldFetch()) {
             source = createCall()
                     .subscribeOn(Schedulers.io())
-                    .doOnNext(apiResponse -> {
-                        Timber.d("ApiResponse has %d", ((MovieResponse) apiResponse).getMovies().size());
-                        saveCallResult(apiResponse);
-                    })
+                    .doOnNext(this::saveCallResult)
                     .flatMap(apiResponse -> loadFromDb().map(Resource::success))
                     .doOnError(t -> onFetchFailed())
                     .onErrorResumeNext(t -> {
@@ -41,7 +34,13 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                     .subscribeOn(Schedulers.io())
                     .map(Resource::success);
         }
-        result = Flowable.concat(loadFromDb().map(Resource::loading).take(1), source);
+
+//        result = Flowable.concat(loadFromDb().map(Resource::loading)
+//                                             .take(1)
+//                                             .startWith(Resource.loading(null)), source)
+//                         .skip(1);
+        result = source.startWith(loadFromDb().map(Resource::loading)
+                                             .take(1));
     }
 
     protected void onFetchFailed() {

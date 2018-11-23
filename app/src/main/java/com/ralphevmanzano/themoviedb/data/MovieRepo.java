@@ -5,34 +5,31 @@ import com.ralphevmanzano.themoviedb.data.local.entity.Movie;
 import com.ralphevmanzano.themoviedb.data.models.MinimizedMovie;
 import com.ralphevmanzano.themoviedb.data.models.MovieCollection;
 import com.ralphevmanzano.themoviedb.data.remote.MovieDBService;
-import com.ralphevmanzano.themoviedb.data.remote.model.MovieResponse;
+import com.ralphevmanzano.themoviedb.data.models.MovieResponse;
 import com.ralphevmanzano.themoviedb.utils.Constants;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class MovieRepository {
-    private static final String TAG = "MovieRepository";
+public class MovieRepo {
+    private static final String TAG = "MovieRepo";
     private static final long FRESH_TIMEOUT_IN_MINUTES = 1 * 1000 * 60;
     private long lastCall = 0;
     private MovieDao movieDao;
     private MovieDBService movieDBService;
 
     @Inject
-    MovieRepository(MovieDBService movieDBService, MovieDao movieDao) {
+    MovieRepo(MovieDBService movieDBService, MovieDao movieDao) {
         this.movieDBService = movieDBService;
         this.movieDao = movieDao;
     }
 
+    //TODO: try merge, tapos mag create ug tig organize sa whole list of merged Movies
     public Flowable<Resource<MovieCollection>> loadCollectionMovies() {
         return Flowable.zip(loadMovies(Movie.NOW_PLAYING, Constants.API_NOW_PLAYING),
                 loadMovies(Movie.POPULAR, Constants.API_POPULAR),
@@ -40,16 +37,16 @@ public class MovieRepository {
                 loadMovies(Movie.UPCOMING, Constants.API_UPCOMING),
                 (np, pop, top, up) -> {
                     assert np.data != null;
-                    Timber.d("Now playing movies size collection: %d", np.data.size());
+                    Timber.d("Now playing movies: %s %d", np.status, np.data.size());
 
                     assert pop.data != null;
-                    Timber.d("Popular movies size collection: %d", pop.data.size());
+                    Timber.d("Popular movies: %s %d", pop.status, pop.data.size());
 
                     assert top.data != null;
-                    Timber.d("Top rated movies size collection: %d", top.data.size());
+                    Timber.d("Top rated movies: %s %d", top.status, top.data.size());
 
                     assert up.data != null;
-                    Timber.d("Upcoming movies size collection: %d", up.data.size());
+                    Timber.d("Upcoming movies: %s %d", up.status, up.data.size());
 
                     return Resource.success(new MovieCollection(np.data, pop.data, top.data, up.data));
                 });
