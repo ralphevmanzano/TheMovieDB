@@ -1,6 +1,7 @@
 package com.ralphevmanzano.themoviedb.data.remote;
 
 import com.ralphevmanzano.themoviedb.data.local.entity.MovieDetails;
+import com.ralphevmanzano.themoviedb.data.models.VideosResponse;
 import com.ralphevmanzano.themoviedb.data.models.MovieResponse;
 
 import io.reactivex.Flowable;
@@ -15,4 +16,7 @@ public interface MovieDBService {
 
     @GET("movie/{id}")
     Flowable<MovieDetails> getMovieDetails(@Path("id") Long id, @Query("api_key") String api_key);
+
+    @GET("movie/{id}/videos")
+    Flowable<VideosResponse> getMovieVideos(@Path("id") Long id, @Query("api_key") String api_key);
 }

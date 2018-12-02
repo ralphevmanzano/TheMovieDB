@@ -39,8 +39,9 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
 //                                             .take(1)
 //                                             .startWith(Resource.loading(null)), source)
 //                         .skip(1);
-        result = source.startWith(loadFromDb().map(Resource::loading)
-                                             .take(1));
+//        result = source.startWith(loadFromDb().map(Resource::loading)
+//                                             .take(1));
+        result = source;
     }
 
     protected void onFetchFailed() {

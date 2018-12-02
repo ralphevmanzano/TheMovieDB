@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ralphevmanzano.themoviedb.R;
+import com.ralphevmanzano.themoviedb.data.local.entity.MovieDetails;
 import com.ralphevmanzano.themoviedb.data.models.MinimizedMovie;
 import com.ralphevmanzano.themoviedb.databinding.FragmentHomeBinding;
 import com.ralphevmanzano.themoviedb.ui.BaseFragment;
 import com.ralphevmanzano.themoviedb.ui.adapters.HomeAdapter;
+import com.ralphevmanzano.themoviedb.ui.details.MovieDetailsFragment;
 import com.ralphevmanzano.themoviedb.viewmodels.MovieListViewModel;
 import com.ralphevmanzano.themoviedb.viewmodels.SharedViewModel;
 
@@ -21,6 +23,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
@@ -37,7 +40,7 @@ public class MovieListFragment extends BaseFragment<MovieListViewModel, Fragment
     private SharedViewModel<MinimizedMovie> sharedViewModel;
 
     @Inject
-    public HomeAdapter adapter;
+    HomeAdapter adapter;
 
     public MovieListFragment() {
         // Required empty public constructor
@@ -59,9 +62,11 @@ public class MovieListFragment extends BaseFragment<MovieListViewModel, Fragment
     @SuppressWarnings("unchecked")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
+        Toolbar toolbar = binding.toolbar;
+        ((MainActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
         sharedViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(SharedViewModel.class);
         setupViews();
-        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
+//        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
         return view;
     }
 
@@ -94,12 +99,20 @@ public class MovieListFragment extends BaseFragment<MovieListViewModel, Fragment
     @Override
     public void onMovieClicked(MinimizedMovie movie, View rootView, View sharedView) {
         sharedViewModel.select(movie);
-        FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
-                .addSharedElement(sharedView, movie.getPosterPath())
-                .build();
-        Bundle bundle = new Bundle();
-        bundle.putString("imgUrl", movie.getPosterPath());
 
-        Navigation.findNavController(rootView).navigate(R.id.move_to_details, bundle, null, extras);
+        MovieDetailsFragment fragment = MovieDetailsFragment.newInstance(movie.getPosterPath());
+
+        fragment.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
+        fragment.setSharedElementReturnTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
+        fragment.setEnterTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.fade));
+        setExitTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.fade));
+
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+               .beginTransaction()
+               .addSharedElement(sharedView, movie.getPosterPath())
+               .replace(R.id.container, fragment)
+               .addToBackStack(null)
+               .commit();
+
     }
 }

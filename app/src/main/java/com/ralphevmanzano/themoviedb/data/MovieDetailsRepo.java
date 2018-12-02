@@ -24,19 +24,6 @@ public class MovieDetailsRepo {
         this.movieDetailsDao = movieDetailsDao;
     }
 
-//    public Flowable<Resource<MovieDetails>> loadMovieDetailss(long id) {
-//        return movieDBService.getMovieDetails(id, Constants.API_KEY)
-//                             .subscribeOn(Schedulers.io())
-//                             .doOnNext(this::handleResult)
-//                             .flatMap(apiResponse -> Timber.d(""));
-//    }
-
-    private void handleResult(MovieDetails movieDetails) {
-        if (movieDetails != null) {
-            movieDetailsDao.insert(movieDetails);
-        }
-    }
-
     public Flowable<Resource<MovieDetails>> loadMovieDetails(long id) {
         return new NetworkBoundResource<MovieDetails, MovieDetails>() {
             @Override

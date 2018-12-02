@@ -8,6 +8,8 @@ public class MinimizedMovie {
 
     @Json(name = "id")
     private long id;
+    @Json(name = "title")
+    private String title;
     @Json(name = "poster_path")
     private String posterPath;
     @Json(name = "backdrop_path")
@@ -15,8 +17,9 @@ public class MinimizedMovie {
     @Json(name = "category")
     private String category;
 
-    public MinimizedMovie(long id, String posterPath, String backdropPath, String category) {
+    public MinimizedMovie(long id, String title, String posterPath, String backdropPath, String category) {
         this.id = id;
+        this.title = title;
         this.posterPath = posterPath;
         this.backdropPath = backdropPath;
         this.category = category;
@@ -36,5 +39,9 @@ public class MinimizedMovie {
 
     public String getCategory() {
         return category;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

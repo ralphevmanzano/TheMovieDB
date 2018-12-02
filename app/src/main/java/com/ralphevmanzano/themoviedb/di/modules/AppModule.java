@@ -4,6 +4,7 @@ import com.ralphevmanzano.themoviedb.App;
 import com.ralphevmanzano.themoviedb.data.local.MovieDatabase;
 import com.ralphevmanzano.themoviedb.data.local.dao.MovieDao;
 import com.ralphevmanzano.themoviedb.data.local.dao.MovieDetailsDao;
+import com.ralphevmanzano.themoviedb.data.local.dao.VideosDao;
 import com.ralphevmanzano.themoviedb.data.remote.MovieDBService;
 import com.ralphevmanzano.themoviedb.di.AppScope;
 import com.ralphevmanzano.themoviedb.utils.Constants;
@@ -64,6 +65,12 @@ public class AppModule {
     @AppScope
     MovieDetailsDao provideMovieDetailsDao(MovieDatabase movieDatabase) {
         return movieDatabase.movieDetailsDao();
+    }
+
+    @Provides
+    @AppScope
+    VideosDao provideVideosDao(MovieDatabase movieDatabase) {
+        return movieDatabase.videosDao();
     }
 
 }

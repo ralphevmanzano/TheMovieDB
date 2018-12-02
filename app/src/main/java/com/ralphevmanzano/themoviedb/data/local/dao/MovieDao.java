@@ -25,11 +25,11 @@ public abstract class MovieDao extends BaseDao<Movie> {
     public abstract Movie getMovie(long id);
 
     @Transaction
-    @Query("SELECT id, posterPath, backdropPath, category FROM TABLE_MOVIE WHERE category LIKE '%' || :category || '%'")
+    @Query("SELECT id, title, posterPath, backdropPath, category FROM TABLE_MOVIE WHERE category LIKE '%' || :category || '%'")
     public abstract Flowable<List<MinimizedMovie>> getMiniminzedMovies(String category);
 
     @Transaction
-    @Query("SELECT id, posterPath, backdropPath, category FROM table_movie WHERE category LIKE '%' || :category || '%' ORDER BY releaseDate DESC")
+    @Query("SELECT id, title, posterPath, backdropPath, category FROM table_movie WHERE category LIKE '%' || :category || '%' ORDER BY releaseDate DESC")
     public abstract Flowable<List<MinimizedMovie>> getNowPlayingMovies(String category);
 
     @Override

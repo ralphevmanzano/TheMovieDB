@@ -22,4 +22,15 @@ public final class ImageBindingAdapter {
                    .into(imageView);
         }
     }
+
+    @BindingAdapter("backdrop")
+    public static void loadBackdrop(ImageView imageView, String url) {
+        if (url != null && !url.trim().isEmpty()) {
+            Picasso.get()
+                   .load(Constants.BACKDROP_ENDPOINT_PREFIX + url)
+                   .resize(1080, 608)
+                   .placeholder(R.color.colorPrimary)
+                   .into(imageView);
+        }
+    }
 }

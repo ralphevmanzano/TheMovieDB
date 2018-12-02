@@ -79,6 +79,7 @@ dependencies {
     implementation deps.custom.cropImageView
     implementation deps.custom.stetho
     implementation deps.custom.stethoOkHttp
+    implementation deps.custom.youtubePlayer
 
     testImplementation deps.test.junit
     androidTestImplementation deps.test.testRunner
