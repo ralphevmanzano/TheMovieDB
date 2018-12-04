@@ -36,7 +36,7 @@ public class NetworkModule {
     @Provides
     @AppScope
     Cache cache(File file) {
-        return new Cache(file, 50 * 1000 * 1000);
+        return new Cache(file, 100 * 1000 * 1000);
     }
 
     @Provides

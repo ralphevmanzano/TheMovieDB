@@ -9,6 +9,8 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
@@ -41,12 +43,12 @@ dependencies {
     implementation deps.support.recyclerView
     implementation deps.support.navigationFrag
     implementation deps.support.navigationUi
+    implementation deps.support.palette
 
     implementation deps.android.lifecycleRuntime
     implementation deps.android.lifecycleCommon
     implementation deps.android.lifecycleExt
     implementation deps.android.lifecycleReactiveStreams
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
     annotationProcessor deps.android.lifecycleCompiler
 
     implementation deps.jakeWharton.timber
@@ -80,6 +82,7 @@ dependencies {
     implementation deps.custom.stetho
     implementation deps.custom.stethoOkHttp
     implementation deps.custom.youtubePlayer
+    implementation deps.custom.blurView
 
     testImplementation deps.test.junit
     androidTestImplementation deps.test.testRunner

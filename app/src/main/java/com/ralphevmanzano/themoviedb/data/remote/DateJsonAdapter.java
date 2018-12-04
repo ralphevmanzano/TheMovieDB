@@ -19,7 +19,7 @@ import java.util.Locale;
 
 public class DateJsonAdapter {
 
-    final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
     @ToJson synchronized String dateToJson(Date d) {
         return dateFormat.format(d);

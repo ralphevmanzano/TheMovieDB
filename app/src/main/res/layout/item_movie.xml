@@ -30,7 +30,6 @@
                 android:background="@color/colorPrimary"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:transitionName="@{minimizedMovie.posterPath}"
                 app:url="@{minimizedMovie.posterPath}"
                 tools:ignore="ContentDescription" />
 

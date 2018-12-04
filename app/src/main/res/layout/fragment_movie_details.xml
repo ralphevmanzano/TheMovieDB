@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -31,7 +32,9 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMarginEnd="72dp"
                 app:expandedTitleMarginStart="16dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+                app:scrimVisibleHeightTrigger="64dp"
+                app:scrimAnimationDuration="350"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -49,7 +52,6 @@
                             android:layout_height="0dp"
                             android:fitsSystemWindows="true"
                             android:scaleType="fitXY"
-                            app:backdrop="@{minMovie.backdropPath}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintDimensionRatio="16:9"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -58,21 +60,14 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-                    <View
+                    <com.github.mmin18.widget.RealtimeBlurView
+                        android:id="@+id/blurView"
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:background="@drawable/scrim_topdown"
-                        android:layout_gravity="top"/>
-
-                    <!--<View-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="80dp"-->
-                        <!--android:background="@drawable/scrim"-->
-                        <!--android:layout_gravity="bottom"/>-->
+                        android:layout_height="match_parent"
+                        app:realtimeBlurRadius="30dp"
+                        app:realtimeOverlayColor="@android:color/transparent"/>
 
                 </FrameLayout>
-
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -88,7 +83,8 @@
 
         <include
             android:id="@+id/included"
-            layout="@layout/home_scrolling_content"/>
+            layout="@layout/home_scrolling_content"
+            bind:minMovie="@{minMovie}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

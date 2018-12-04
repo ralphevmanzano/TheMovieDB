@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public abstract class BaseAdapter<T> extends ListAdapter<T, BaseViewHolder<T>> {
 
     private MovieClickCallback clickCallback;
+    protected ViewDataBinding binding;
 
     protected BaseAdapter(@NonNull DiffUtil.ItemCallback<T> diffCallback, @Nullable MovieClickCallback clickCallback) {
         super(diffCallback);
@@ -29,7 +30,7 @@ public abstract class BaseAdapter<T> extends ListAdapter<T, BaseViewHolder<T>> {
     @Override
     public BaseViewHolder<T> onCreateViewHolder(@NonNull ViewGroup parent, int layoutId) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        ViewDataBinding binding = DataBindingUtil.inflate(inflater, layoutId, parent, false);
+        binding = DataBindingUtil.inflate(inflater, layoutId, parent, false);
         return new BaseViewHolder<T>(binding, clickCallback);
     }
 
