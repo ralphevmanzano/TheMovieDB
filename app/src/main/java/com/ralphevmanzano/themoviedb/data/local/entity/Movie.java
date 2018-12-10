@@ -43,8 +43,8 @@ public class Movie {
     private String originalLanguage;
     @Json(name = "original_title")
     private String originalTitle;
-    @Json(name = "genre_ids")
-    private List<Integer> genreIds = null;
+//    @Json(name = "genre_ids")
+//    private List<Integer> genreIds = null;
     @Json(name = "backdrop_path")
     @ColumnInfo(name = "backdropPath")
     private String backdropPath;
@@ -134,14 +134,6 @@ public class Movie {
 
     public void setOriginalTitle(String originalTitle) {
         this.originalTitle = originalTitle;
-    }
-
-    public List<Integer> getGenreIds() {
-        return genreIds;
-    }
-
-    public void setGenreIds(List<Integer> genreIds) {
-        this.genreIds = genreIds;
     }
 
     public String getBackdropPath() {

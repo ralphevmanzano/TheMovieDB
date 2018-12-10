@@ -5,15 +5,15 @@ import com.squareup.moshi.Json;
 public class Genre {
 
     @Json(name = "id")
-    private int id;
+    private long id;
     @Json(name = "name")
     private String name;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

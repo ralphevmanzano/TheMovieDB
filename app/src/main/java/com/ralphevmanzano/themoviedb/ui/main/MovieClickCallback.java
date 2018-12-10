@@ -6,5 +6,5 @@ import com.ralphevmanzano.themoviedb.data.local.entity.Movie;
 import com.ralphevmanzano.themoviedb.data.models.MinimizedMovie;
 
 public interface MovieClickCallback {
-    void onMovieClicked(MinimizedMovie movie,View rootView, View sharedView);
+    void onMovieClicked(Movie movie,View rootView, View sharedView);
 }

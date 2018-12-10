@@ -2,11 +2,15 @@ package com.ralphevmanzano.themoviedb.ui.main;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.ralphevmanzano.themoviedb.R;
+import com.ralphevmanzano.themoviedb.data.local.entity.Movie;
+import com.ralphevmanzano.themoviedb.data.models.HomeData;
 import com.ralphevmanzano.themoviedb.data.models.MinimizedMovie;
 import com.ralphevmanzano.themoviedb.databinding.FragmentHomeBinding;
 import com.ralphevmanzano.themoviedb.ui.BaseFragment;
@@ -35,7 +39,7 @@ import timber.log.Timber;
  */
 public class MovieListFragment extends BaseFragment<MovieListViewModel, FragmentHomeBinding> implements MovieClickCallback {
 
-    private SharedViewModel<MinimizedMovie> sharedViewModel;
+    private SharedViewModel<Movie> sharedViewModel;
 
     @Inject
     HomeAdapter adapter;
@@ -84,6 +88,7 @@ public class MovieListFragment extends BaseFragment<MovieListViewModel, Fragment
     private void setupViews() {
         if (getActivity() != null)
             ActivityCompat.postponeEnterTransition(getActivity());
+
         binding.rvMovies.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvMovies.setAdapter(adapter);
         binding.rvMovies.getViewTreeObserver().addOnPreDrawListener(() -> {
@@ -96,16 +101,14 @@ public class MovieListFragment extends BaseFragment<MovieListViewModel, Fragment
     private void getMovieList() {
         Timber.d("getMoviesList");
         viewModel.getMovies().observe(getViewLifecycleOwner(), movies -> {
-            Timber.d("===============================================");
             binding.setResource(movies);
         });
     }
 
-
     @Override
-    public void onMovieClicked(MinimizedMovie movie, View rootView, View sharedView) {
+    public void onMovieClicked(Movie movie, View rootView, View sharedView) {
         sharedViewModel.select(movie);
-        Timber.d("transName %s", ViewCompat.getTransitionName(sharedView));
+
         MovieDetailsFragment fragment = MovieDetailsFragment.newInstance(movie.getPosterPath(), ViewCompat.getTransitionName(sharedView));
 
         setExitTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.no_transition));

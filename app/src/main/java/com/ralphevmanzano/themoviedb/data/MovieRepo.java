@@ -2,10 +2,9 @@ package com.ralphevmanzano.themoviedb.data;
 
 import com.ralphevmanzano.themoviedb.data.local.dao.MovieDao;
 import com.ralphevmanzano.themoviedb.data.local.entity.Movie;
-import com.ralphevmanzano.themoviedb.data.models.MinimizedMovie;
 import com.ralphevmanzano.themoviedb.data.models.MovieCollection;
-import com.ralphevmanzano.themoviedb.data.remote.MovieDBService;
 import com.ralphevmanzano.themoviedb.data.models.MovieResponse;
+import com.ralphevmanzano.themoviedb.data.remote.MovieDBService;
 import com.ralphevmanzano.themoviedb.utils.Constants;
 
 import java.util.List;
@@ -52,8 +51,8 @@ public class MovieRepo {
                 });
     }
 
-    public Flowable<Resource<List<MinimizedMovie>>> loadMovies(int category, String apiCategory) {
-        return new NetworkBoundResource<List<MinimizedMovie>, MovieResponse>() {
+    public Flowable<Resource<List<Movie>>> loadMovies(int category, String apiCategory) {
+        return new NetworkBoundResource<List<Movie>, MovieResponse>() {
 
             @Override
             protected boolean shouldFetch() {
@@ -73,11 +72,11 @@ public class MovieRepo {
 
             @NonNull
             @Override
-            protected Flowable<List<MinimizedMovie>> loadFromDb() {
+            protected Flowable<List<Movie>> loadFromDb() {
                 if (category == Movie.NOW_PLAYING) {
                     return movieDao.getNowPlayingMovies(String.valueOf(category));
                 }
-                return movieDao.getMiniminzedMovies(String.valueOf(category));
+                return movieDao.getMoviesByCategory(String.valueOf(category));
             }
 
             @NonNull

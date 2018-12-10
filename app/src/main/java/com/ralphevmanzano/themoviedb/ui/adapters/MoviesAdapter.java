@@ -30,7 +30,7 @@ public class MoviesAdapter extends BaseAdapter<Movie> {
         super.onBindViewHolder(holder, position);
         if (binding instanceof ItemMovieBinding) {
             ViewCompat.setTransitionName(((ItemMovieBinding) binding).ivMovie,
-                    String.format(Locale.ENGLISH, "%s%d", ((ItemMovieBinding) binding).getMinimizedMovie().getPosterPath(), position));
+                    String.format(Locale.ENGLISH, "%s%d", ((ItemMovieBinding) binding).getMovie().getPosterPath(), position));
         }
     }
 }

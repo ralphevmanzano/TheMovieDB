@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="minimizedMovie"
-            type="com.ralphevmanzano.themoviedb.data.models.MinimizedMovie" />
+            name="movie"
+            type="com.ralphevmanzano.themoviedb.data.local.entity.Movie" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -30,7 +30,7 @@
                 android:background="@color/colorPrimary"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:url="@{minimizedMovie.posterPath}"
+                app:url="@{movie.posterPath}"
                 tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

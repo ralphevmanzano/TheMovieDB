@@ -18,14 +18,14 @@ public class BaseViewHolder<T> extends RecyclerView.ViewHolder {
         if (clickCallback != null)
             binding.getRoot().setOnClickListener(view -> {
                 if (binding instanceof ItemMovieBinding)
-                    clickCallback.onMovieClicked(((ItemMovieBinding) binding).getMinimizedMovie(),
+                    clickCallback.onMovieClicked(((ItemMovieBinding) binding).getMovie(),
                                                 binding.getRoot(),
                                                 ((ItemMovieBinding) binding).ivMovie);
             });
     }
 
     public void onBind(T data) {
-        binding.setVariable(BR.minimizedMovie, data);
+        binding.setVariable(BR.movie, data);
         binding.executePendingBindings();
     }
 }

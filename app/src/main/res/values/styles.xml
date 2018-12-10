@@ -22,4 +22,8 @@
         <item name="android:textColor">#ffffff</item>
     </style>
 
+    <declare-styleable name="TransitionArcMotion">
+        <attr name="arcRadius" format="integer" />
+    </declare-styleable>
+
 </resources>

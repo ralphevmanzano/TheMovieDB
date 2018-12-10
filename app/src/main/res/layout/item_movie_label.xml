@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32px"
             android:layout_marginTop="40px"
-            android:fontFamily="@font/oswald_bold"
+            android:fontFamily="@font/lato_bold"
             android:includeFontPadding="false"
             android:text="@{homedata.data}"
             android:textColor="@android:color/white"

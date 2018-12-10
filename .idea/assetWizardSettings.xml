@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_play_arrow_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_monetization_on_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -34,9 +34,11 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="01d277" />
-                            <entry key="outputName" value="ic_play" />
+                            <entry key="height" value="16" />
+                            <entry key="outputName" value="ic_revenue" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\ralphemerson" />
+                            <entry key="width" value="16" />
                           </map>
                         </option>
                       </PersistentState>

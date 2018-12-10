@@ -6,12 +6,13 @@
     <data>
 
         <variable
-            name="minMovie"
-            type="com.ralphevmanzano.themoviedb.data.models.MinimizedMovie" />
+            name="resource"
+            type="com.ralphevmanzano.themoviedb.data.Resource" />
 
         <variable
-            name="movieDetails"
-            type="com.ralphevmanzano.themoviedb.data.local.entity.MovieDetails" />
+            name="movie"
+            type="com.ralphevmanzano.themoviedb.data.local.entity.Movie" />
+
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -20,8 +21,9 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:orientation="vertical"
-        app:behavior_overlapTop="190px"
+        app:behavior_overlapTop="195px"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:background="@color/colorPrimaryLight"
         tools:ignore="PxUsage">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,61 +48,177 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="190px" />
+                app:layout_constraintGuide_begin="195px" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/contentDetails"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:clipToPadding="false"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgMovieDetails"
-                tools:layout_editor_absoluteX="16dp">
+                app:layout_constraintTop_toBottomOf="@+id/imgMovieDetails">
 
                 <TextView
                     android:id="@+id/txtYear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/oswald_regular"
+                    android:fontFamily="@font/lato_regular"
+                    android:gravity="center"
                     android:includeFontPadding="false"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="24sp"
-                    android:text="@{movieDetails.releaseDate}"
+                    android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="@+id/txtTitle"
-                    app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+                    app:setYear="@{movie.releaseDate}"
+                    tools:text="1996" />
 
                 <TextView
                     android:id="@+id/txtTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="24dp"
+                    android:layout_marginStart="16dp"
                     android:ellipsize="end"
-                    android:fontFamily="@font/oswald_regular"
+                    android:fontFamily="@font/lato_regular"
+                    android:gravity="left|center"
                     android:includeFontPadding="false"
+                    android:lineSpacingExtra="0dp"
                     android:maxLines="2"
-                    android:text="@{minMovie.title}"
+                    android:text="@{movie.title}"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toTopOf="@+id/txtYear"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/circleProgressBar"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
+                    app:layout_constraintVertical_chainStyle="spread_inside"
+                    tools:ignore="RtlHardcoded"
+                    tools:text="wreck it " />
+
+                <com.ralphevmanzano.themoviedb.utils.CircleProgressBar
+                    android:id="@+id/circleProgressBar"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtYear"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/txtTitle"
+                    app:max="10"
+                    app:progressBarThickness="4dp"
+                    app:progressbarColor="@color/colorAccent" />
 
                 <TextView
+                    android:id="@+id/txtRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_black"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="@{String.valueOf(movie.voteAverage)}"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/circleProgressBar"
+                    app:layout_constraintEnd_toEndOf="@+id/circleProgressBar"
+                    app:layout_constraintStart_toStartOf="@+id/circleProgressBar"
+                    app:layout_constraintTop_toTopOf="@+id/circleProgressBar"
+                    tools:text="6.1" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/flexbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    app:alignItems="flex_start"
+                    app:dividerDrawableHorizontal="@drawable/flexbox_space"
+                    app:dividerDrawableVertical="@drawable/flexbox_space"
+                    app:flexDirection="row"
+                    app:flexWrap="wrap"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/txtYear"
+                    app:layout_constraintTop_toBottomOf="@id/barrier2"
+                    app:showDivider="middle" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/flexboxGenre"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:alignItems="flex_start"
+                    app:dividerDrawableHorizontal="@drawable/flexbox_vertical_space"
+                    app:dividerDrawableVertical="@drawable/flexbox_space"
+                    app:flexDirection="row"
+                    app:flexWrap="wrap"
+                    app:layout_constraintEnd_toEndOf="@id/flexbox"
+                    app:layout_constraintStart_toStartOf="@id/flexbox"
+                    app:layout_constraintTop_toBottomOf="@id/flexbox"
+                    app:showDivider="middle" />
+
+                <TextView
+                    android:id="@+id/labelOverview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:includeFontPadding="false"
+                    android:text="@string/overview"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/flexboxGenre" />
+
+                <TextView
+                    android:id="@+id/txtOverview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="0dp"
+                    android:text="@{movie.overview}"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/labelOverview"
+                    app:layout_constraintTop_toBottomOf="@id/labelOverview"
+                    tools:text="A war-hardened Crusader and his Moorish commander mount an audacious revolt against the corrupt English crown." />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/txtOverview"
                     android:layout_marginTop="16dp"
                     android:text="@string/large_text"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/lato_regular"
+                    android:includeFontPadding="false"
+                    android:textColor="@android:color/white"/>
+
+                <com.ralphevmanzano.themoviedb.utils.WrapContentHeightViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tabs"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                </com.ralphevmanzano.themoviedb.utils.WrapContentHeightViewPager>
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="circleProgressBar,txtYear"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtYear"
-                    tools:layout_editor_absoluteX="16dp" />
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="171dp" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -110,6 +228,7 @@
                 android:layout_height="36dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/circle_border"
+                android:contentDescription="@string/fave_button"
                 android:src="@drawable/ic_favorite_border_black_24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/btnTrailer"
                 app:layout_constraintDimensionRatio="w,1:1"
@@ -126,12 +245,12 @@
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/bg_trailer_btn"
                 android:drawableStart="@drawable/ic_play"
-                android:fontFamily="@font/oswald_regular"
+                android:fontFamily="@font/lato_black"
                 android:includeFontPadding="false"
                 android:letterSpacing="0.1"
                 android:paddingStart="8dp"
                 android:paddingEnd="12dp"
-                android:text="Trailer"
+                android:text="@string/trailer"
                 android:textColor="@color/colorAccent"
                 app:layout_constraintBottom_toBottomOf="@+id/imgMovieDetails"
                 app:layout_constraintEnd_toEndOf="parent"

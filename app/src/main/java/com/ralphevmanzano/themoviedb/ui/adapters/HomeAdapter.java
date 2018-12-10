@@ -2,7 +2,9 @@ package com.ralphevmanzano.themoviedb.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.ralphevmanzano.themoviedb.BR;
 import com.ralphevmanzano.themoviedb.R;
@@ -15,18 +17,19 @@ import com.ralphevmanzano.themoviedb.utils.MovieDiffCallback;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import timber.log.Timber;
 
 public class HomeAdapter extends BaseHomeAdapter<HomeAdapter.HomeViewHolder> {
 
     private List<HomeData> movieList;
     private MovieClickCallback clickCallback;
+    int[] leftOffset = new int[9];
+    int[] pos = new int[9];
 
     public HomeAdapter(MovieClickCallback clickCallback) {
         this.clickCallback = clickCallback;
@@ -56,7 +59,39 @@ public class HomeAdapter extends BaseHomeAdapter<HomeAdapter.HomeViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
+        final int pos = holder.getAdapterPosition();
         holder.onBind(movieList.get(holder.getAdapterPosition()));
+
+        if (holder.binding instanceof ItemMovieListBinding) {
+            final ItemMovieListBinding binding = ((ItemMovieListBinding) holder.binding);
+            if (holder.getAdapterPosition() != -1 && binding.rvMovieList.getLayoutManager() instanceof LinearLayoutManager)
+                ((LinearLayoutManager) binding.rvMovieList.getLayoutManager())
+                        .scrollToPositionWithOffset(this.pos[pos], leftOffset[pos]);
+        }
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull HomeViewHolder holder) {
+        super.onViewRecycled(holder);
+        final int position = holder.getAdapterPosition();
+        if (position != -1) {
+            if (holder.binding instanceof ItemMovieListBinding) {
+                final ItemMovieListBinding binding = ((ItemMovieListBinding) holder.binding);
+                final RecyclerView.LayoutManager layoutManager = binding.rvMovieList.getLayoutManager();
+                if (layoutManager instanceof LinearLayoutManager) {
+                    final View item = binding.rvMovieList.getChildAt(0);
+                    pos[position] = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+                    leftOffset[position] = (item == null) ? 0 : (item.getLeft() - binding.rvMovieList.getPaddingLeft());
+                } else {
+                    pos[position] = 0;
+                    leftOffset[position] = 0;
+                }
+                for (int i : this.pos) {
+                    Timber.d("pos %d", i);
+                }
+            }
+        }
+
     }
 
     @Override
@@ -76,6 +111,7 @@ public class HomeAdapter extends BaseHomeAdapter<HomeAdapter.HomeViewHolder> {
 
         ViewDataBinding binding;
         Context context;
+        LinearLayoutManager layoutManager;
 
         HomeViewHolder(Context context, ViewDataBinding binding) {
             super(binding.getRoot());
@@ -90,10 +126,9 @@ public class HomeAdapter extends BaseHomeAdapter<HomeAdapter.HomeViewHolder> {
 
             if (binding instanceof ItemMovieListBinding) {
                 MoviesAdapter adapter = new MoviesAdapter(new MovieDiffCallback(), clickCallback);
-
-                ((ItemMovieListBinding) binding).rvMovieList.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+                layoutManager = new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false);
+                ((ItemMovieListBinding) binding).rvMovieList.setLayoutManager(layoutManager);
                 ((ItemMovieListBinding) binding).rvMovieList.setAdapter(adapter);
-
                 adapter.submitList((List<Movie>) data.getData());
             }
         }

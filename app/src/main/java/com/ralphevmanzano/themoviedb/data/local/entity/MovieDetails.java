@@ -21,7 +21,6 @@ public class MovieDetails {
     private String backdropPath;
     @Json(name = "budget")
     private int budget;
-    @Ignore
     @Json(name = "genres")
     private List<Genre> genres = null;
     @Json(name = "homepage")
@@ -82,14 +81,6 @@ public class MovieDetails {
 
     public void setBudget(int budget) {
         this.budget = budget;
-    }
-
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
     }
 
     public String getHomepage() {
@@ -236,4 +227,11 @@ public class MovieDetails {
         this.voteCount = voteCount;
     }
 
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
 }

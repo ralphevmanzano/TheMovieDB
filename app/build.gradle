@@ -71,6 +71,7 @@ dependencies {
     implementation deps.google.dagger
     implementation deps.google.gson
     implementation deps.google.daggerSupport
+    implementation deps.google.flexbox
     annotationProcessor deps.google.daggerProcessor
     annotationProcessor deps.google.daggerCompiler
 

@@ -5,31 +5,31 @@ import com.ralphevmanzano.themoviedb.data.local.entity.Movie;
 import java.util.List;
 
 public class MovieCollection {
-    private List<MinimizedMovie> nowPlayingMovies;
-    private List<MinimizedMovie> popularMovies;
-    private List<MinimizedMovie> topRatedMovies;
-    private List<MinimizedMovie> upcomingMovies;
+    private List<Movie> nowPlayingMovies;
+    private List<Movie> popularMovies;
+    private List<Movie> topRatedMovies;
+    private List<Movie> upcomingMovies;
 
-    public MovieCollection(List<MinimizedMovie> nowPlayingMovies, List<MinimizedMovie> popularMovies, List<MinimizedMovie> topRatedMovies, List<MinimizedMovie> upcomingMovies) {
+    public MovieCollection(List<Movie> nowPlayingMovies, List<Movie> popularMovies, List<Movie> topRatedMovies, List<Movie> upcomingMovies) {
         this.nowPlayingMovies = nowPlayingMovies;
         this.popularMovies = popularMovies;
         this.topRatedMovies = topRatedMovies;
         this.upcomingMovies = upcomingMovies;
     }
 
-    public List<MinimizedMovie> getNowPlayingMovies() {
+    public List<Movie> getNowPlayingMovies() {
         return nowPlayingMovies;
     }
 
-    public List<MinimizedMovie> getPopularMovies() {
+    public List<Movie> getPopularMovies() {
         return popularMovies;
     }
 
-    public List<MinimizedMovie> getTopRatedMovies() {
+    public List<Movie> getTopRatedMovies() {
         return topRatedMovies;
     }
 
-    public List<MinimizedMovie> getUpcomingMovies() {
+    public List<Movie> getUpcomingMovies() {
         return upcomingMovies;
     }
 

@@ -5,10 +5,9 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
-            name="minMovie"
-            type="com.ralphevmanzano.themoviedb.data.models.MinimizedMovie" />
+            name="movie"
+            type="com.ralphevmanzano.themoviedb.data.local.entity.Movie" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -84,7 +83,7 @@
         <include
             android:id="@+id/included"
             layout="@layout/home_scrolling_content"
-            bind:minMovie="@{minMovie}"/>
+            bind:movie="@{movie}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
