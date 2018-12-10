@@ -103,12 +103,6 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Fr
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        binding.included.viewPager.removeAllViews();
-    }
-
-    @Override
     public Class<MovieDetailsViewModel> getViewModel() {
         return MovieDetailsViewModel.class;
     }
@@ -345,7 +339,7 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Fr
     }
 
     private void setupViewPager() {
-        DetailsViewPagerAdapter adapter = new DetailsViewPagerAdapter(getFragmentManager());
+        DetailsViewPagerAdapter adapter = new DetailsViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new ReviewsFragment(), "Reviews");
         adapter.addFragment(new SuggestionsFragment(), "Suggestions");
         binding.included.viewPager.setAdapter(adapter);

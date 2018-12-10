@@ -102,6 +102,7 @@
                     android:layout_width="52dp"
                     android:layout_height="52dp"
                     android:layout_marginTop="8dp"
+                    android:layout_margin="16dp"
                     app:layout_constraintBottom_toBottomOf="@+id/txtYear"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/txtTitle"
