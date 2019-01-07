@@ -1,6 +1,7 @@
 package com.ralphevmanzano.themoviedb.ui.details;
 
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -137,8 +139,8 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Fr
                 movie -> {
                     getMovieDetails(movie.getId());
                     binding.setMovie(movie);
-                    setBgImage(movie.getBackdropPath());
                     setRating(movie.getVoteAverage());
+                    setBgImage(movie.getBackdropPath());
                     getMovieVideo(movie.getId());
                 });
     }
@@ -211,9 +213,6 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Fr
 //            binding.included.setMovieDetails(movieDetails);
             binding.included.setResource(movieDetailsResource);
             setupFlexbox();
-            if (movieDetails.getGenres() != null && movieDetails.getGenres().size() > 0) {
-                Timber.d("genre %s", movieDetails.getGenres().get(0).getName());
-            }
             binding.executePendingBindings();
         });
     }
@@ -335,30 +334,35 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Fr
                 context.startActivity(webIntent);
             }
         });
-
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setupViewPager() {
         DetailsViewPagerAdapter adapter = new DetailsViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new ReviewsFragment(), "Reviews");
         adapter.addFragment(new SuggestionsFragment(), "Suggestions");
-        binding.included.viewPager.setAdapter(adapter);
+        ViewPager viewPager = binding.included.viewPager;
+        viewPager.setAdapter(adapter);
         binding.included.tabs.setupWithViewPager(binding.included.viewPager);
-        binding.included.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+//                viewPager.getParent().requestDisallowInterceptTouchEvent(true);
             }
 
             @Override
             public void onPageSelected(int position) {
-                binding.included.viewPager.scrollTo(0, 0);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
+        });
+
+        viewPager.setOnTouchListener((v, event) -> {
+//            v.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
         });
     }
 }
